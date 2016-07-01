@@ -1,0 +1,361 @@
+\documentclass[12pt,a4paper,leqno]{report}
+
+\usepackage[ansinew]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsthm}
+\usepackage{amsfonts}         
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\No}{\mathbb{N}_0}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\diam}{\operatorname{diam}}
+
+\theoremstyle{plain}
+\newtheorem{theo}[equation]{Theorem}
+\newtheorem{lem}[equation]{Lemma}
+\newtheorem{prop}[equation]{Proposition}
+\newtheorem{cor}[equation]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defi}[equation]{Definition}
+\newtheorem{conjec}[equation]{Conjecture}
+\newtheorem{exa}[equation]{Example}
+
+\theoremstyle{remark}
+\newtheorem{rema}[equation]{Remark}
+
+\pagestyle{plain}
+\setcounter{page}{1}
+\addtolength{\hoffset}{-1.15cm}
+\addtolength{\textwidth}{2.3cm}
+\addtolength{\voffset}{0.45cm}
+\addtolength{\textheight}{-0.9cm}
+
+\title{Random matrix stuff}
+\author{Olli Hirviniemi}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Introduction}\label{intro}
+
+The purpose of this thesis is to make me a master.
+
+
+\chapter{Preliminaries}\label{gener}
+
+Something something about random variables and stuff, matrices also. Spectral theorem might be good to state here?
+
+\begin{theo}\label{specth}
+\emph{Spectral theorem.} An $n \times n$ hermitian matrix has $n$ real eigenvalues, counting multiplicities.
+\end{theo}
+
+\begin{proof}
+See \cite{Tao}.
+\end{proof}
+
+\chapter{Semicircular law}\label{semic}
+
+\begin{defi}\label{wigmat}
+Suppose that $(\xi_{ij})_{i,j \in \Z_+}$ are random variables with $(\xi_{ij})_{i \leq j}$ being independent, $(\xi_{ii})_{i \in \Z_+}$ identically distributed real random variables, $(\xi_{ij})_{i<j}$ identically distributed complex random variables, and $\xi_{ij}=\overline{\xi_{ji}}$ for $i>j$. With such random variables, an associated \emph{Wigner matrix} (of size $n$) is the hermitian matrix
+\begin{equation*}
+W_n = (\xi_{ij})_{1\leq i,j \leq n}.
+\end{equation*} 
+\end{defi}
+
+Assume that every $\xi_{ij}$ has mean $0$ and unit variance. We will also assume that the fourth moment of the off-diagonal elements is bounded by some constant $K$: this is true in many important special cases such as gaussian matrix ensembles.
+
+Since $W_n$ is hermitian, it has $n$ real eigenvalues by spectral theorem.
+Trying to understand how these eigenvalues are distributed is the purpose of this section: namely, deriving the \emph{semicircular law}.
+
+First consider the magnitude of the eigenvalues. A simple example of $n \times n$ -matrix of ones shows that even with bounded coefficients, the eigenvalues can grow in magnitude as the size of the matrix increases. So there is need to normalize the matrix somehow.
+
+Following lemma motivates the normalizing factor used:
+
+\begin{lem}
+Let $x$ be a unit vector of $\C^n$. Then for any $\lambda > 0$, 
+\begin{equation*}
+P(|W_nx|>\sqrt{n}\lambda) \leq \frac{8}{\lambda^2}.
+\end{equation*}
+\end{lem}
+
+\begin{proof}
+Fix a unit vector $x$. Split $W_n = M_1 + M_2$, where $M_1$ consist of upper triangular elements of $W_n$ (so $M_1$ is zero below the main diagonal).
+If we denote the components of $x$ with $x_i$ and rows of $M_1$ by $R_i$, then we get following upper bound using independence and zero mean hypothesis:
+\begin{eqnarray*}
+E(|M_1x|^2) & = &  
+E(\sum_{i=1}^n |R_i \cdot x|^2) \\
+& = & \sum_{i=1}^n E(|R_i \cdot x|^2)\\
+& = & \sum_{i=1}^n 
+E(|\sum_{j=i}^n \xi_{ij} x_j|^2)\\
+& = & \sum_{i=1}^n 
+E(\sum_{j=i}^n \sum_{k=i}^n \xi_{ij} x_j\overline{\xi_{ik} x_k}) \\
+& = & \sum_{i=1}^n 
+\sum_{j=i}^n \sum_{k=i}^n E(\xi_{ij} x_j\overline{\xi_{ik} x_k}) \\
+& = & \sum_{i=1}^n 
+\sum_{j=i}^n |x_j|^2E(|\xi_{ij}|^2)\\
+& = & \sum_{i=1}^n \sum_{j=i}^n |x_j|^2\\
+& \leq & \sum_{i=1}^n \sum_{j=1}^n |x_j|^2\\
+& = & \sum_{i=1}^n 1\\
+& = & n
+\end{eqnarray*}
+Now by Markov's inequality 
+\begin{equation*}
+P(|M_1x|^2 \geq \lambda^2) \leq  \frac{n}{\lambda^2},
+\end{equation*}
+or equivalently
+\begin{equation*}
+P(|M_1x| \geq \sqrt{n} \lambda) \leq  \frac{1}{\lambda^2}.
+\end{equation*}
+Same argument also applies for $M_2$ with summing $j$ and $k$ from $1$ to $i-1$, and we have
+\begin{equation*}
+P(|M_2x| \geq \sqrt{n} \lambda) \leq  \frac{1}{\lambda^2}. 
+\end{equation*}
+Using triangle inequality, we can estimate
+\begin{eqnarray*}
+P(|W_nx| \geq \sqrt{n} \lambda) & \leq & P(|M_1x|+|M_2x| \geq \sqrt{n} \lambda)\\
+& \leq & P(|M_1x| \geq \sqrt{n} \frac{\lambda}{2}) + P(|M_2x| \geq \sqrt{n} \frac{\lambda}{2})\\
+& \leq & \frac{4}{\lambda^2} + \frac{4}{\lambda^2}\\
+& = & \frac{8}{\lambda^2}.
+\end{eqnarray*}
+\end{proof} 
+
+
+Motivated by the previous lemma, consider now matrices $\frac{1}{\sqrt{n}}W_n$. Looking at the distribution of the eigenvalues, some kind of limit behaviour seems to apply. To handle this rigorously a precise definition for convergence is necessary.
+
+\begin{defi}
+Given a hermitian matrix $A$ with eigenvalues $\lambda_1, \ldots , \lambda_n$, the empirical spectral distribution of $A$ is a probability measure given by
+\begin{equation*}
+\mu_A := \frac{1}{n} \sum_{i=1}^n \delta_{\lambda_i},
+\end{equation*}
+where $\delta_x$ is a Dirac measure for $x \in \R$.
+\end{defi}
+
+Recall that a sequence of measures $\mu_n$ is said to converge to $\mu$ in vague topology if for every compactly supported continuous function $\phi$, $\int_{\R} \phi d\mu_n$ converges to $\int_{\R}\phi d\mu$. When $A$ is a random hermitian matrix, $\mu_A$ is a random probability measure.
+
+\begin{defi}
+Let $(\mu_n)_{n=1}^{\infty}$ be a sequence of random measures.
+If for any test function $\phi$, the sequence $\int_{\R} \phi d\mu_n$ converges to $\int_{\R} \phi d\mu$ almost certainly, the we say that $\mu_n$ converges to $\mu$ almost certainly.
+\end{defi}
+
+It is possible to obtain the semicircular law in different ways, for example by considering the moments of $\mu_{\frac{1}{\sqrt{n}}W_n}$. We will return to the moments later. Now define the following tool, the Stieltjes transform:
+
+\begin{defi}
+For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined outside the support of $\mu$ as
+\begin{equation*}
+S_{\mu} (z) := \int_{\R} \frac{1}{x-z} d \mu(x).
+\end{equation*}
+\end{defi}
+
+The following two theorems demonstrate why the Stieltjes transform is helpful when investigating the limit behaviour of probability measures. The first allows recovering the probability measure from its Stieltjes transform and the second links the convergence of the measures to the convergence of their Stieltjes transforms.
+
+\begin{theo}
+Let $\mu$ be a probability measure on the real line, and $f_b : \R -> \R$ be the imaginary part of the function $a  \to \frac{1}{\pi} s_{\mu}(a+ib)$.  For $\phi$, we have
+\begin{equation*}
+\lim_{b \to 0} \int_{\R} \phi(x) f_b (x) dx = \int_{\R} \phi(x) d\mu(x).
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+The imaginary part of the integral kernel in Stieltjes transform for $z=a+ib$ is
+\begin{equation*}
+\frac{b}{(x-a)^2+b^2}.
+\end{equation*}
+This means that
+
+\begin{eqnarray*}
+\lim_{b \to 0} \int_{\R} \phi(x) f_b (x) dx & = & \lim_{b \to 0} \int_{\R} \phi(x) \int_{\R} \frac{b}{(y-x)^2+b^2} d\mu(y) dx\\
+& = & \lim_{b \to 0} \int_{\R} \int_{\R} \frac{b}{(y-x)^2+b^2} \phi(x) dx d\mu(y)\\
+& = & \int_{\R} \phi(y) d\mu(y).
+\end{eqnarray*}
+The last equality holds because the kernels $\frac{b}{\pi((x-a)^2+b^2)}$ are an approximation of identity.
+\end{proof}
+
+\begin{theo}
+\emph{Stieltjes continuity theorem}. Let $(\mu_n)_{n \in Z_+}$ be a 
+sequence of random probability measures and $\mu$ a probability measure on the real line. 
+Then $\mu_n$ converges to $\mu$ almost certainly if and only if
+for any $z \in H_+$ the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$ almost certainly.
+\end{theo}
+
+\begin{proof}
+"Only if": For
+
+"If":
+\end{proof}
+
+The objective is clear now: deriving the almost sure convergence of empirical spectral distributions to a limit reduces to proving the almost sure convergence of the Stieltjes tranforms.
+If the almost sure limit of Stieltjes transforms exists, we can deduce the limit measure by taking limit with the limit function.
+
+The Stieltjes transform of the ESD is
+
+\begin{equation}
+S\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}.
+\end{equation}
+
+From now on, $z$ will be a fixed complex number with non-zero imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that their expectations have a limit function, then we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely.
+
+First consider the expectation of the empirical spectral measure.  By symmetry, we have
+
+\begin{eqnarray*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = &
+E(\frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1})\\
+& = & E(\frac{1}{n} \sum_{i=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii})\\
+& = & E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{nn}.
+\end{eqnarray*}
+
+Using Schur complement, we have
+
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = E\frac{1}{-z+\frac{\xi_{n,n}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}C},
+\end{equation*}
+
+where $C$ is the column $(\xi_{in})_{i=1}^{n-1}$.
+
+First, consider the term $\xi_{nn}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
+
+\begin{equation*}
+P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
+\end{equation*}
+
+This means informally that the term doesn't affect the result by more than $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
+
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. Now condition $A$ to be fixed.
+
+\begin{lem}
+For a fixed matrix $A$, we have
+\begin{equation*}
+E(C^* A C) = tr(A).
+\end{equation*}
+\end{lem}
+
+\begin{proof}
+As the random variables $\xi_{in}$ are independent and have mean zero and unit variance, we can compute
+\begin{eqnarray*}
+
+\end{eqnarray*} 
+\end{proof}
+
+\begin{lem}
+For a fixed hermitian matrix $A$ with operator norm bounded by $|Im(z)|^{-1}$, we have
+\begin{equation*}
+Var(C^* A C) \leq R \| A \|_2^2 \leq n R |Im(z)|^{-2}.
+\end{equation*}
+for a constant $R>0$ independent from $A$.
+\end{lem}
+
+\begin{proof}
+Computation.
+\end{proof}
+
+We now have
+
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -\frac{1-o(1)}{z+\frac{1}{n}Etr(\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1}) + o(1)} + o(1)Im(z)^{-1}.
+\end{equation*}
+
+The term $\frac{1}{n}Etr(\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})$ can be expressed with the expectation of the Stieltjes transform of $\mu_{\frac{1}{n-1}W_{n-1}}$. By the following lemma, the stability of the Stieltjes transform allows estimating it by 
+the expression we wish to control, namely $ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
+
+\begin{lem}
+\begin{equation*}
+S_{n-1}(z) = S_n(z) + \frac{C_z}{n}.
+\end{equation*}
+\end{lem}
+
+By continuity (as the denominator is bounded away from zero) 
+
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -\frac{1}{z+ES\mu_{\frac{1}{n}W_n}(z)} + o(1).
+\end{equation*}
+
+Solving this, we get
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{-z \pm \sqrt{z^2 - 4}}{2} +o(1).
+\end{equation*}
+
+Since $S\mu$ maps the upper half-plane to the upper half-plane,  
+
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{-z + \sqrt{z^2 - 4}}{2} +o(1),
+\end{equation*}
+
+where the branch of the square root is cut from $[-2,2]$ and the imaginary part is positive in upper half-plane.
+
+With this it is already possible to prove a slightly weaker version of the semicircular law concerning the converge of the expectation measures $E\mu_n$, defined as $(E\mu)(A) = E(\mu(A))$. However, we can also recover almost sure convergence with following lemma, which is a special case of \emph{McDiarmid's inequality}.
+
+\begin{lem}
+For any index $n$ and postive number $\lambda$, we have
+\begin{equation*}
+P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \leq Ce^{-cn\lambda^2}.
+\end{equation*}
+for some constants $C, c > 0$, depending only on $z$.
+\end{lem}
+
+Now, the sum $\sum_{n=1}^{\infty} Cd^{-cn\varepsilon}$ converges as a geometric series. Combining previous lemma with Borel-Cantelli lemma implies that almost surely
+
+\begin{equation*}
+S\mu_{\frac{1}{\sqrt{n}}W_n}(z) \to g(z) = \frac{-z + \sqrt{z^2-4}}{2}.
+\end{equation*}
+
+Now investigating the behaviour of imaginary part near real axis has
+
+\begin{eqnarray*}
+\frac{1}{\pi} Im(g(x+yi)) & = &
+\frac{y}{2\pi} + \frac{\sqrt{\frac{4-x^2+y^2+\sqrt{(x^2-y^2-4)^2+4x^2y^2}}{2}}}{2\pi}\\
+& \to & \frac{1}{2\pi} \sqrt{(4-x^2)_+},
+\end{eqnarray*}
+
+meaning that the limit of the imaginary part of the Stieltjes transform is the \emph{Wigner semicircular distribution}. Now that we know what the limiting probability measure should be, the problem of verifying the limit measure reduces to straightforward computation.
+
+\begin{theo}
+Let $\mu_{sc}$ be the probability measure of the Wigner semicircular distribution. Then
+\begin{equation*}
+S\mu(z) = g(z).
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+By change of variables and residue computation.
+\end{proof}
+
+By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ converges to the semicircular distribution almost surely. We have finally proved:
+
+\begin{theo}
+\emph{Wigner semicircular law.} Statement of the semicircular law.
+\end{theo}
+
+As was mentioned before, it is also possible to prove the semicircular law by considering the moments of the empirical spectral distribution. Let us prove a slightly modified version of the semicircular law by this method.
+
+\begin{theo}
+Let $(\xi_{ij})_{i,j \in \Z_+}$ be random variables (not necessarily identically distributed) such that $\xi_{ij}$
+are independent with mean zero and unit variance for $i \leq j$, with diagonal $\xi_{ii}$ real random variables, and $\xi_{ij}=\overline{\xi_{ji}}$ for $i>j$. Assume also that $|\xi_{ij}|<M$ almost surely for some absolute constant $M$, in other words the random variables are uniformly bounded almost certainly.
+Then, defining Wigner matrix $W_n$ as before, the empirical spectral distributions $\mu_{\frac{1}{\sqrt{n}}W_n}$ converge to $\mu_{sc}$ almost certainly.
+\end{theo}
+
+The following result reduces this claim in a way similar to Stieltjes continuity theorem:
+
+\chapter{What next?}\label{future}
+
+The future is here.
+
+\begin{thebibliography}{9}
+
+\bibitem{Tao}
+Terence Tao: Topics in random matrix theory, 
+
+\bibitem{Duo}
+Javier Duoandikoetxea: Fourier analysis, 2.\ painos, Limes ry, 1990.
+
+\end{thebibliography}
+
+\end{document}
