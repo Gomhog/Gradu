@@ -202,26 +202,27 @@ The Stieltjes transform of the ESD is
 S\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}.
 \end{equation}
 
-From now on, $z$ will be a fixed complex number with non-zero imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that their expectations have a limit function, then we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely.
+From now on, $z$ will be a fixed complex number with non-zero imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely, then we prove that the expectations have a limit function.
 
-First consider the expectation of the empirical spectral measure.  By symmetry, we have
+Consider the expectation of the empirical spectral measure.  By symmetry, we have
 
 \begin{eqnarray*}
 ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = &
 E(\frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1})\\
 & = & E(\frac{1}{n} \sum_{i=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii})\\
-& = & E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{nn}.
+& = & \frac{1}{n} \sum_{i=1}^n E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii}.
 \end{eqnarray*}
 
+Consider a fixed term in the sum.
 Using Schur complement, we have
 
 \begin{equation*}
-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = E\frac{1}{-z+\frac{\xi_{n,n}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}C},
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = E\frac{1}{-z+\frac{\xi_{l,l}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}C},
 \end{equation*}
 
-where $C$ is the column $(\xi_{in})_{i=1}^{n-1}$.
+where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$, and $W_n^l$ is the matrix $W_n$ with $l$th column and row removed.
 
-First, consider the term $\xi_{nn}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
+First, consider the term $\xi_{ll}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
 
 \begin{equation*}
 P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
@@ -229,7 +230,7 @@ P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n
 
 This means informally that the term doesn't affect the result by more than $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
 
-Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. Now condition $A$ to be fixed.
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. Now condition $A$ to be fixed.
 
 \begin{lem}
 For a fixed matrix $A$, we have
@@ -239,22 +240,111 @@ E(C^* A C) = tr(A).
 \end{lem}
 
 \begin{proof}
-As the random variables $\xi_{in}$ are independent and have mean zero and unit variance, we can compute
+Denote $c_i = \xi_{il}$ if $i<l$ and $c_i = \xi_{(i+1)l}$ if $i\geq l$.
+As the random variables $c_i$ are independent and have mean zero and unit variance, we can compute
 \begin{eqnarray*}
-
+E(C^* A C) & = & E(\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j)\\
+& = & \sum_{i=1}^{n-1} \sum_{j=1}^{n-1} E(\overline{c_i} a_{ij} c_j)\\
+& = & \sum_{i=1}^{n-1} (a_{ii} E(\overline{c_i}c_i) + \sum_{j=1,j \neq i}^{n-1} a_{ij} E(\overline{c_i} c_j))\\
+& = & \sum_{i=1}^{n-1} (a_{ii} E(|c_i|^2 ) + \sum_{j=1,j \neq i}^{n-1} a_{ij} E(\overline{c_i}) E(c_j))\\
+& = & \sum_{i=1}^{n-1} (a_{ii} \cdot 1 + \sum_{j=1,j \neq i}^{n-1} a_{ij} \cdot 0)\\
+& = & \sum_{i=1}^{n-1} a_{ii}\\
+& = & tr(A).
 \end{eqnarray*} 
 \end{proof}
 
 \begin{lem}
-For a fixed hermitian matrix $A$ with operator norm bounded by $|Im(z)|^{-1}$, we have
+For a fixed hermitian matrix $A$ with operator norm bounded by $c>0$, we have
 \begin{equation*}
-Var(C^* A C) \leq R \| A \|_2^2 \leq n R |Im(z)|^{-2}.
+Var(C^* A C) \leq R \| A \|_2^2 \leq n R c^2.
 \end{equation*}
 for a constant $R>0$ independent from $A$.
 \end{lem}
 
 \begin{proof}
-Computation.
+We computed the expectation in the previous lemma. As $Var(Y) = E(|Y|^2)-|E(Y)|^2$, we need to compute $E(|C^* A C|^2)$. Similarly to the previous lemma, we denote the component of $C$ by $c_i$ and compute
+\begin{eqnarray*}
+E(|C^* A C|^2) & = & E(|\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j|^2)\\
+& = & E((\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j)
+(\overline{\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j}))\\
+& = & E (\sum_{i_1=1}^{n-1}\sum_{i_2=1}^{n-1}
+\sum_{j_1=1}^{n-1}\sum_{j_2=1}^{n-1} 
+\overline{c_{i_1}} a_{i_1j_1} c_{j_1}c_{i_2} \overline{a_{i_2j_2} c_{j_2}})\\
+& = & \sum_{i_1=1}^{n-1}\sum_{i_2=1}^{n-1}
+\sum_{j_1=1}^{n-1}\sum_{j_2=1}^{n-1} 
+E(\overline{c_{i_1}} a_{i_1j_1} c_{j_1}c_{i_2} \overline{a_{i_2j_2} c_{j_2}}).
+\end{eqnarray*}
+Now recall that all $c_k$ have mean zero and are independent. This means that if in one term one of the indices $i_1, i_2, j_1$ and $j_2$ is distinct from others, that term vanishes.
+
+The only remaining terms are the ones in one of the following cases:
+
+(1) $i_1 = i_2 = j_1 = j_2$
+
+(2) $i_1=i_2 \neq j_1=j_2$
+
+(3) $i_1 = j_1 \neq i_2 = j_2$
+
+(4) $i_1 = j_2 \neq i_2 = j_1$
+
+Let's go through these cases individually. Denote by $S_i$ the sum of the terms from case $i$.
+For case (1), recall that the non-diagonal elements have a finite fourth moment, so $E(|c_{k}|^4) = K < \infty$. Letting $i_1=i_2=j_1=j_2=k$, we have
+\begin{eqnarray*}
+S_1 & = & \sum_{k=1}^{n-1} E(\overline{c_{k}} a_{kk} c_{k}c_{k} \overline{a_{kk} c_{k}})\\
+& = & \sum_{k=1}^{n-1} |a_{kk}|^2 E(|c_{k}|^4)\\
+& = & \sum_{k=1}^{n-1} K |a_{kk}|^2
+\end{eqnarray*}
+In case (2), set $i_1=i_2=k_1$ and $j_1=j_2=k_2$, and we have 
+\begin{eqnarray*}
+S_2 & = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} E(\overline{c_{k_1}} a_{k_1k_2} c_{k_2}c_{k_1} \overline{a_{k_1k_2} c_{k_2}})\\
+& = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} |a_{k_1k_2}|^2 E(|c_{k_1}|^2)  E(|c_{k_2}|^2)\\
+& = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} |a_{k_1k_2}|^2
+\end{eqnarray*}
+In case (3), setting $i_1=j_1=k_1$ and $i_2=j_2=k_2$ gives
+\begin{eqnarray*}
+S_3 & = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} E(\overline{c_{k_1}} a_{k_1k_1} c_{k_1}c_{k_2} \overline{a_{k_2k_2} c_{k_2}})\\
+& = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} a_{k_1k_1} \overline{a_{k_2k_2}} E(|c_{k_1}|^2)  E(|c_{k_2}|^2)\\
+& = & \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} a_{k_1k_1} \overline{a_{k_2k_2}}
+\end{eqnarray*}
+Notice that the sums in previous cases have been real. For (1) and (2) all the terms are real, and case (3) may be written as
+\begin{equation*}
+S_3 = \sum_{k_1=1}^{n-1} \sum_{k_2=k_1+1}^{n-1} (a_{k_1k_1} \overline{a_{k_2k_2}}+ \overline{a_{k_1k_1}} a_{k_2k_2}).
+\end{equation*}
+Finally in case (4), setting $i_1=j_2=k_1$ and $i_2=j_1=k_2$ to compute
+\begin{eqnarray*}
+S_4 & = & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1\neq k_2}^{n-1}
+E(\overline{c_{k_1}} a_{k_1k_2} c_{k_2}c_{k_2} \overline{a_{k_2k_1} c_{k_1}})\\
+& = & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} a_{k_1k_2} \overline{a_{k_2k_1}}
+E(\overline{c_{k_1}}^2) E( c_{k_2}^2)
+\end{eqnarray*}
+We know that $S_4$ must be real. Using triangle inequality and arithmetic-geometric mean inequality, we estimate
+\begin{eqnarray*}
+S_4 & = & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} a_{k_1k_2} \overline{a_{k_2k_1}}
+E(\overline{c_{k_1}}^2) E( c_{k_2}^2)\\
+& \leq & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} |a_{k_1k_2}| |a_{k_2k_1}|
+|E(\overline{c_{k_1}}^2)| |E( c_{k_2}^2)|\\
+& \leq & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} |a_{k_1k_2}| |a_{k_2k_1}|
+E(|c_{k_1}|^2) E(|c_{k_2}|^2)\\
+& = & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} |a_{k_1k_2}| |a_{k_2k_1}|\\
+& \leq & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \ neq k_2}^{n-1} \frac{|a_{k_1k_2}|^2+|a_{k_2k_1}|^2}{2}\\
+& = & \sum_{k_1=1}^{n-1}\sum_{k_2=1, k_1 \neq k_2}^{n-1} |a_{k_1k_2}|^2.
+\end{eqnarray*}
+
+Now
+\begin{eqnarray*}
+Var(C^* A C) & = & S_1+S_2+S_3+S_4 - |E(C^* A C)|^2\\
+& = & \sum_{k=1}^{n-1} (K-1) |a_{kk}|^2 + |tr(A)|^2 + S_2+S_4 - |tr(A)|^2\\
+& = &  \sum_{k=1}^{n-1} (K-1) |a_{kk}|^2 + \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} |a_{k_1k_2}|^2+ S_4\\
+& \leq & \sum_{k=1}^{n-1} (K-1) |a_{kk}|^2 + \sum_{k_1=1}^{n-1} \sum_{k_2=1, k_1\neq k_2}^{n-1} 2|a_{k_1k_2}|^2\\
+& \leq & \max(K-1,2) \sum_{k_1=1}^{n-1} \sum_{k_2=1}^{n-1} |a_{k_1k_2}|^2\\
+& = & R \|A\|_2^2. 
+\end{eqnarray*}
+Observe that the constant $R = \max(K-1,2)$ does not depend on $n$ or $A$. If the operator norm of $A$ is bounded by $c$, then $|Ae_i|^2\leq c^2$. But this means that
+\begin{eqnarray*}
+R \|A\|_2^2 & = & R \sum_{k_1=1}^{n-1} \sum_{k_2=1}^{n-1} |a_{k_1k_2}|^2\\
+& = & R \sum_{k_2=1}^{n-1} \sum_{k_1=1}^{n-1} |a_{k_1k_2}|^2\\
+& = & R \sum_{k_2=1}^{n-1} |Ae_{k_2}|^2\\
+& \leq & R n c^2
+\end{eqnarray*}
 \end{proof}
 
 We now have
@@ -289,12 +379,12 @@ Since $S\mu$ maps the upper half-plane to the upper half-plane,
 ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{-z + \sqrt{z^2 - 4}}{2} +o(1),
 \end{equation*}
 
-where the branch of the square root is cut from $[-2,2]$ and the imaginary part is positive in upper half-plane.
+where the branch of the square root has positive imaginary part in upper half-plane.
 
 With this it is already possible to prove a slightly weaker version of the semicircular law concerning the converge of the expectation measures $E\mu_n$, defined as $(E\mu)(A) = E(\mu(A))$. However, we can also recover almost sure convergence with following lemma, which is a special case of \emph{McDiarmid's inequality}.
 
 \begin{lem}
-For any index $n$ and postive number $\lambda$, we have
+For any index $n$ and positive number $\lambda$, we have
 \begin{equation*}
 P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \leq Ce^{-cn\lambda^2}.
 \end{equation*}
