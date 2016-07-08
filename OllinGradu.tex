@@ -15,6 +15,8 @@
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\diam}{\operatorname{diam}}
 
+\newcommand{\eps}{\varepsilon}
+
 \theoremstyle{plain}
 \newtheorem{theo}[equation]{Theorem}
 \newtheorem{lem}[equation]{Lemma}
@@ -51,8 +53,6 @@
 The purpose of this thesis is to make me a master.
 
 
-\chapter{Preliminaries}\label{gener}
-
 Something something about random variables and stuff, matrices also. Spectral theorem might be good to state here?
 
 \begin{theo}\label{specth}
@@ -63,16 +63,16 @@ Something something about random variables and stuff, matrices also. Spectral th
 See \cite{Tao}.
 \end{proof}
 
-\chapter{Semicircular law}\label{semic}
+\chapter{Setting}\label{setup}
 
-\begin{defi}\label{wigmat}
+\begin{defi}
 Suppose that $(\xi_{ij})_{i,j \in \Z_+}$ are random variables with $(\xi_{ij})_{i \leq j}$ being independent, $(\xi_{ii})_{i \in \Z_+}$ identically distributed real random variables, $(\xi_{ij})_{i<j}$ identically distributed complex random variables, and $\xi_{ij}=\overline{\xi_{ji}}$ for $i>j$. With such random variables, an associated \emph{Wigner matrix} (of size $n$) is the hermitian matrix
 \begin{equation*}
 W_n = (\xi_{ij})_{1\leq i,j \leq n}.
 \end{equation*} 
 \end{defi}
 
-Assume that every $\xi_{ij}$ has mean $0$ and unit variance. We will also assume that the fourth moment of the off-diagonal elements is bounded by some constant $K$: this is true in many important special cases such as gaussian matrix ensembles.
+Assume that every $\xi_{ij}$ has mean $0$ and unit variance. We will also assume that the fourth moment of the off-diagonal elements is bounded by some constant $K$: this is true in many important special cases such as Gaussian matrix ensembles.
 
 Since $W_n$ is hermitian, it has $n$ real eigenvalues by spectral theorem.
 Trying to understand how these eigenvalues are distributed is the purpose of this section: namely, deriving the \emph{semicircular law}.
@@ -147,19 +147,26 @@ Let $(\mu_n)_{n=1}^{\infty}$ be a sequence of random measures.
 If for any test function $\phi$, the sequence $\int_{\R} \phi d\mu_n$ converges to $\int_{\R} \phi d\mu$ almost certainly, the we say that $\mu_n$ converges to $\mu$ almost certainly.
 \end{defi}
 
+\chapter{Stieltjes transform}\label{stieltjes}
+
+
 It is possible to obtain the semicircular law in different ways, for example by considering the moments of $\mu_{\frac{1}{\sqrt{n}}W_n}$. We will return to the moments later. Now define the following tool, the Stieltjes transform:
 
 \begin{defi}
-For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined outside the support of $\mu$ as
+For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined in upper half plane (and thus outside the support of $\mu$) as
 \begin{equation*}
 S_{\mu} (z) := \int_{\R} \frac{1}{x-z} d \mu(x).
 \end{equation*}
 \end{defi}
 
+Some basic properties:
+
+Analytic, with derivative bounded by blah
+
 The following two theorems demonstrate why the Stieltjes transform is helpful when investigating the limit behaviour of probability measures. The first allows recovering the probability measure from its Stieltjes transform and the second links the convergence of the measures to the convergence of their Stieltjes transforms.
 
 \begin{theo}
-Let $\mu$ be a probability measure on the real line, and $f_b : \R -> \R$ be the imaginary part of the function $a  \to \frac{1}{\pi} s_{\mu}(a+ib)$.  For $\phi$, we have
+Let $\mu$ be a probability measure on the real line, and $f_b : \R -> \R$ be the imaginary part of the function $a  \to \frac{1}{\pi} S_{\mu}(a+ib)$.  For $\phi$, we have
 \begin{equation*}
 \lim_{b \to 0} \int_{\R} \phi(x) f_b (x) dx = \int_{\R} \phi(x) d\mu(x).
 \end{equation*}
@@ -182,16 +189,113 @@ The last equality holds because the kernels $\frac{b}{\pi((x-a)^2+b^2)}$ are an 
 
 \begin{theo}
 \emph{Stieltjes continuity theorem}. Let $(\mu_n)_{n \in Z_+}$ be a 
-sequence of random probability measures and $\mu$ a probability measure on the real line. 
-Then $\mu_n$ converges to $\mu$ almost certainly if and only if
-for any $z \in H_+$ the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$ almost certainly.
+sequence of random probability measures and $\mu$ a probability measure on the real line. Then following three are equivalent:
+
+(1) $\mu_n$ converges to $\mu$ almost certainly in vague topology.
+
+(2) For any $z \in H_+$ the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$ almost certainly.
+
+(3) Almost surely, for all $z \in H_+$ the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$
 \end{theo}
 
 \begin{proof}
-"Only if": For
+(1) $\rightarrow$ (2): Let $z \in H_+$. Define functions $f_N : \R \to \C$ as 
 
-"If":
+\begin{equation*}
+f_N (x) = \frac{1}{x-z} \max(0,d(x,[-N,N])).
+\end{equation*}
+
+Now we know that almost surely $\int f_N d\mu_n$ converges to $f_N d\mu$. Applying Lebesgue dominated convergence theorem, we obtain that
+\begin{equation*}
+\int_{\R} \frac{1}{x-z} d\mu_n(x) \to 
+\int_{\R} \frac{1}{x-z} d\mu(x)
+\end{equation*}
+almost surely, so the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$ almost certainly.
+
+(2) $\rightarrow$ (3): It is enough to show that almost surely, the Stieltjes transform $S_{\mu_n}(z)$ converges to $S_{\mu}(z)$ for all $z$ in the rectangles $R_K = [-K,K] \times [1/K,K]$, as the upper half-plane is a countable union of such rectangles.
+
+Fix $K$ and let $(q_i)$ be an enumeration of the rational points of $R_K$. Then for all $i$ $S\mu_n(q_i)$ converges to $S\mu(q_i)$ almost surely.
+
+Consider now the case that every $S\mu_n(q_i)$ converges to $S\mu(q_i)$.
+Because there are only countably many points $q_i$, this happens almost surely. Fix $z \in R_K$ and $\eps > 0$. We will show that $S\mu_n(z)$ converges to $S\mu(z)$.
+
+Recall that the derivative of any Stieltjes transform in $R_K$ is bounded by $K^2$, and therefore $S\mu_n$, $S\mu$ are $K^2$-Lipschitz. As the rational points are dense in $R_K$, we can find a $q_i$ with 
+$|z-q_i|< \eps /(3K^2)$.
+
+Since we assume that $S\mu_n(q_i)$ converges to $S\mu(q_i)$, we know that for large enough $n$ $|S\mu_n(q_i)-S\mu(q_i)|< \eps / 3$. Combining these estimates gives for large enough $n$
+\begin{eqnarray*}
+|S\mu_n(z)-S\mu(z)| & = & |S\mu_n(z)-S\mu_n(q_i) + S\mu_n(q_i)-S\mu(q_i)+S\mu(q_i)-S\mu(z)|\\
+& \leq & |S\mu_n(z)-S\mu_n(q_i)| + |S\mu_n(q_i)-S\mu(q_i)|+|S\mu(q_i)-S\mu(z)|\\
+& \leq & K^2|z-q_i| + \frac{\epsilon}{3} + K^2|q_i-z|\\
+& \leq & \frac{K^2\eps}{3K^2} + \frac{\epsilon}{3} + \frac{K^2\eps}{3K^2}\\
+& = & \eps
+\end{eqnarray*}
+and it follows that $S\mu_n(z)$ converges to $S\mu(z)$.
+
+(3) $\rightarrow$ (1): Recall from previous lemma that the imaginary part of the Stieltjes transform can be interpreted as an approximation of identity multiplied by $\pi$.
+
+Let $\phi$ be any continuous compactly supported function, and let $M$ and $K$ be constants such that $|\phi(x)|\leq M$ for any $x$ and $\phi(x)=0$ for $|x|>K$. Fix $\eps > 0$. 
+Then for small enough $b>0$, we have $|\phi * P_b (x)-\phi(x)| < \eps$ for all $x$. This means that for any $n$, we have 
+
+\begin{equation*}
+|\int_{\R} \phi(x) d\mu_n(x) - \int_{\R} \phi * P_b d\mu_n(x)| \leq \eps
+\end{equation*} 
+
+and the same inequality holds if we replace $\mu_n$ with $\mu$.
+
+As in the previous lemma, denote the imaginary parts of functions $a  \to \frac{1}{\pi} S_{\mu}(a+ib)$ and $a  \to \frac{1}{\pi} S_{\mu_n}(a+ib)$ by $f_b$ and $f_{b,n}$, respectively.  We notice that $\int_{\R} \phi * P_b d\mu(x) = \int \phi(x) f_{b}(x) dx$ and $\int_{\R} \phi * P_b d\mu_n(x) = \int \phi(x) f_{b,n}(x) dx$.
+
+By hypothesis, almost surely, for all $x$ $f_{b,n}(x)$ converges to $f_b(x)$. All values $\phi(x) f_{b,n}(x)$ are dominated by $\frac{M}{b} \chi_{[-K,K]} (x)$ so by Lebesgue's dominated convergence theorem, we can almost surely choose $N$ such that
+
+\begin{equation*}
+|\int \phi(x) f_{b,n}(x) dx - \int \phi(x) f_{b}(x) dx| \leq \eps 
+\end{equation*}
+for any $n>N$.
+
+Now combining the two estimates with triangle inequality means that almost surely we can choose $N$ such that
+\begin{eqnarray*}
+|\int_{\R} \phi(x) d\mu_n(x) - \int_{\R} \phi(x) d\mu(x)| & \leq &
+|\int_{\R} \phi(x) d\mu_n(x) - \int_{\R} \phi * P_b d\mu_n(x)|\\
+&  & + |\int \phi(x) f_{b,n}(x) dx - \int \phi(x) f_{b}(x) dx|\\
+& & + | \int_{\R} \phi * P_b d\mu(x)- \int_{\R} \phi(x) d\mu(x)|\\
+& \leq & 3\eps
+\end{eqnarray*}
+
+As $\eps$ was arbitrary, we have that 
+$\int_{\R} \phi(x) d\mu_n(x)$ converges to $\int_{\R} \phi(x) d\mu(x)$ almost surely.
+%Now by the uniform continuity of $\phi$, for any $\epsilon>0$ we have $|\phi(x)-\phi(y)|< \epsilon$ for $|x-y|<\delta$ for some $\delta>0$.
+%
+%\begin{eqnarray*}
+%|\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(y)| & = & |\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(x) + \phi(y) f_{b,n}(x) -\phi(y) f_{b,n}(y)|\\
+%& \leq & |\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(x)| + |\phi(y) f_{b,n}(x) -\phi(y) f_{b,n}(y)|\\
+%& = & |\phi(x)-\phi(y)||f_{b,n}(x)| + |\phi(y) || f_{b,n}(x) -f_{b,n}(y)|\\
+%& \leq & \epsilon \frac{1}{b} + M \frac{1}{b^2} |x-y|\\
+%& \leq & \epsilon \frac{1}{b} + M \frac{1}{b^2} \delta.
+%\end{eqnarray*}
+%
+%Selecting $0<\epsilon<\frac{b\eps}{4K}$, choose $N$ with $2K/N \leq min(\delta,\frac{b^2\eps}{4MK})$. Then partitioning the interval $[-K,K]$ into $N$ subintervals of equal length with endpoints $-K = a_0 < a_1 < \cdots < a_N = K$, we can estimate the integral by the Riemann sum $\Delta_n$:
+%
+%\begin{eqnarray*}
+%|\int_{\R} \phi(x) f_{b,n}(x) dx - \Delta_n | & =  & |\int_{\R} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \sum_{i=1}^N \phi(a_i)f_{b,n}(a_i) |\\
+%& = & |\sum_{i=1}^N(\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \phi(a_i)f_{b,n}(a_i)) |\\
+%& \leq & \sum_{i=1}^N|\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \phi(a_i)f_{b,n}(a_i)|\\
+%& = & \sum_{i=1}^N|\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) - \phi(a_i)f_{b,n}(a_i) dx|\\
+%& \leq & \sum_{i=1}^N\int_{a_{i-1}}^{a_i} |\phi(x) f_{b,n}(x) - \phi(a_i)f_{b,n}(a_i)| dx\\
+%& \leq & \sum_{i=1}^N\int_{a_{i-1}}^{a_i} \frac{b\eps}{4K} \frac{1}{b} + M \frac{1}{b^2} \frac{b^2\eps}{4MK} dx\\
+%& = & \sum_{i=1}^N \frac{2K}{N} \frac{b\eps}{4K} \frac{1}{b} + M \frac{1}{b^2} \frac{b^2\eps}{4MK}\\
+%& = & 2K (\frac{\eps}{4K} + \frac{\eps}{4K})\\
+%& = & \eps.
+%\end{eqnarray*}
+%
+%The exact same inequality works if we replace $f_{b,n}$ by $f_b$.
+%
+%Now finally, every sequence $f_{b,n}(a_i)$ converges almost surely to $f_{b}(a_i)$, because we assumed that the Stieltjes transforms converge pointwise almost surely. This means that we can find almost surely an index $n$
+%
+%Partitions Riemann sums almost sure approximation by imaginary part uniform blah blah blah.
+
 \end{proof}
+
+\chapter{Deriving the semicircular law}\label{semic}
 
 The objective is clear now: deriving the almost sure convergence of empirical spectral distributions to a limit reduces to proving the almost sure convergence of the Stieltjes tranforms.
 If the almost sure limit of Stieltjes transforms exists, we can deduce the limit measure by taking limit with the limit function.
@@ -391,7 +495,11 @@ P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \
 for some constants $C, c > 0$, depending only on $z$.
 \end{lem}
 
-Now, the sum $\sum_{n=1}^{\infty} Cd^{-cn\varepsilon}$ converges as a geometric series. Combining previous lemma with Borel-Cantelli lemma implies that almost surely
+\begin{proof}
+zzzz
+\end{proof}
+
+Now, the sum $\sum_{n=1}^{\infty} Ce^{-cn\varepsilon}$ converges as a geometric series. Combining previous lemma with Borel-Cantelli lemma implies that almost surely
 
 \begin{equation*}
 S\mu_{\frac{1}{\sqrt{n}}W_n}(z) \to g(z) = \frac{-z + \sqrt{z^2-4}}{2}.
@@ -415,14 +523,75 @@ S\mu(z) = g(z).
 \end{theo}
 
 \begin{proof}
-By change of variables and residue computation.
+We will compute the Stieltjes transform at point $z$ in upper half-plane. First, making the substitution $x = 2 \cos \theta$, we get
+\begin{eqnarray*}
+S\mu_{sc}(z) & = & \int_{\R} \frac{1}{x-z} d\mu_{sc}(x)\\
+& = & \frac{1}{2\pi} \int_{-2}^2 \frac{\sqrt{4-x^2}}{x-z} dx\\
+& = & \frac{1}{2\pi} \int_{0}^{\pi} \frac{\sqrt{4-4\cos^2\theta}}{2\cos\theta -z} 2 \sin\theta d\theta\\
+& = & \frac{1}{2\pi} \int_{0}^{\pi} \frac{4\sin^2\theta}{2\cos\theta -z} d\theta\\
+& = & \frac{1}{4\pi} \int_{0}^{2\pi} \frac{4\sin^2\theta}{2\cos\theta -z} d\theta.
+\end{eqnarray*}
+
+Expressing the sine and cosine via complex exponential function and making substitution $e^{i\theta} = w$, we get
+\begin{eqnarray*}
+S\mu_{sc}(z) & = & \frac{1}{4\pi} \int_{0}^{2\pi} \frac{4\sin^2\theta}{2\cos\theta -z} d\theta\\
+& = & \frac{1}{4\pi} \int_{0}^{2\pi} \frac{4(\frac{1}{2i}(e^{i\theta}-e^{-i\theta}))^2}{2(\frac{1}{2}(e^{i\theta}+e^{-i\theta})) -z} d\theta\\
+& = & \frac{1}{4\pi} \int_{0}^{2\pi} \frac{-(e^{2i\theta}-2+e^{-2i\theta})}{(e^{i\theta}+e^{-i\theta}) -z} d\theta\\
+& = & \frac{1}{4\pi} \int_{|w|=1} \frac{2-w^2-w^{-2}}{(w+w^{-1}) -z} \frac{dw}{iw}\\
+& = & \frac{1}{4\pi} \int_{|w|=1} \frac{2-w^2-w^{-2}}{(w+w^{-1}) -z} \frac{dw}{iw}\\
+& = & \frac{1}{4\pi i} \int_{|w|=1} \frac{2-w^2-w^{-2}}{w^2+1 -zw} dw\\
+& = & \frac{1}{4\pi i} \int_{|w|=1} \frac{-w^4+2w^2-1}{w^2(w^2+1 -zw)} dw\\
+& = & \frac{1}{4\pi i} \int_{|w|=1} h_z(w) dw.
+\end{eqnarray*}
+
+We are going to apply the residue theorem to compute the integral. As the function $h_z$ has poles at $w=0$ and $w=\frac{z \pm \sqrt{z^2-4}}{2}$, we need to figure out if the poles at $w=\frac{z \pm \sqrt{z^2-4}}{2}$ lie in the unit disk.
+
+Denote those two poles by $p_1$ and $p_2$. Then, $p_1 + p_2 = z$ and $p_1p_2=1$, which implies that exactly one of them lies in the unit disk. Since $z$ has positive imaginary part, the one with smaller absolute value must have negative imaginary part.
+Therefore, the pole $w=\frac{z - \sqrt{z^2-4}}{2} = p_1$ lies in the unit disk, where the square root branch has positive imaginary part.
+
+Calculating the residues is straightforward. For $w=0$:
+
+\begin{eqnarray*}
+Res(h_z,0) & = &
+\left(\frac{d}{dw} \frac{-w^4+2w^2-1}{w^2-zw+1} \right)_{w=0}\\
+& = & \left(\frac{(-4w^3+4w)(w^2-zw+1)-(-w^4+2w^2-1)(2w-z)}{(w^2-zw+1)^2} \right)_{w=0}\\
+& = & \frac{(-4\cdot 0^3+4 \cdot 0)(0^2-z\cdot 0+1)-(-0^4+2\cdot 0^2-1)(2\cdot 0-z)}{(0^2-z\cdot 0+1)^2} \\
+& = & -z
+\end{eqnarray*}
+
+For $w=p_1$, we use the fact that $p_1p_2 = 1$:
+
+\begin{eqnarray*}
+Res(h_z,p_1) & = &
+\left(\frac{-w^4+2w^2-1}{w^2(w-p_2)} \right)_{w=p_1}\\
+& = & \frac{-p_1^4+2p_1^2-1}{p_1^2(p_1-p_2)}\\
+& = & \frac{-(p_1^2-1)^2}{p_1^2(p_1-p_2)}\\
+& = & \frac{-(p_1^2-p_1p_2)^2}{p_1^2(p_1-p_2)}\\
+& = & \frac{-p_1^2(p_1-p_2)^2}{p_1^2(p_1-p_2)}\\
+& = & p_2-p_1\\
+& = & \frac{z + \sqrt{z^2-4}}{2} - \frac{z - \sqrt{z^2-4}}{2}\\
+& = & \sqrt{z^2-4}.
+\end{eqnarray*}
+
+Now by residue theoremwe have
+
+\begin{eqnarray*}
+S\mu_{sc}(z) & = & \frac{1}{4\pi i} \int_{|w|=1} \frac{-w^4+2w^2-1}{w^2(w^2+1 -zw)} dw\\
+& = & \frac{1}{2} ( -z + \sqrt{z^2-4}).
+\end{eqnarray*}
+
 \end{proof}
 
-By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ converges to the semicircular distribution almost surely. We have finally proved:
+By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ converges to the semicircular distribution almost surely in vague topology. We have finally proved:
 
 \begin{theo}
 \emph{Wigner semicircular law.} Statement of the semicircular law.
 \end{theo}
+
+
+\chapter{What next?}\label{future}
+
+The future is here.
 
 As was mentioned before, it is also possible to prove the semicircular law by considering the moments of the empirical spectral distribution. Let us prove a slightly modified version of the semicircular law by this method.
 
@@ -433,10 +602,6 @@ Then, defining Wigner matrix $W_n$ as before, the empirical spectral distributio
 \end{theo}
 
 The following result reduces this claim in a way similar to Stieltjes continuity theorem:
-
-\chapter{What next?}\label{future}
-
-The future is here.
 
 \begin{thebibliography}{9}
 
