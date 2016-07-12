@@ -202,7 +202,7 @@ sequence of random probability measures and $\mu$ a probability measure on the r
 (1) $\rightarrow$ (2): Let $z \in H_+$. Define functions $f_N : \R \to \C$ as 
 
 \begin{equation*}
-f_N (x) = \frac{1}{x-z} \max(0,d(x,[-N,N])).
+f_N (x) = \frac{1}{x-z} \max(0,1-d(x,[-N,N])).
 \end{equation*}
 
 Now we know that almost surely $\int f_N d\mu_n$ converges to $f_N d\mu$. Applying Lebesgue dominated convergence theorem, we obtain that
@@ -263,36 +263,6 @@ Now combining the two estimates with triangle inequality means that almost surel
 
 As $\eps$ was arbitrary, we have that 
 $\int_{\R} \phi(x) d\mu_n(x)$ converges to $\int_{\R} \phi(x) d\mu(x)$ almost surely.
-%Now by the uniform continuity of $\phi$, for any $\epsilon>0$ we have $|\phi(x)-\phi(y)|< \epsilon$ for $|x-y|<\delta$ for some $\delta>0$.
-%
-%\begin{eqnarray*}
-%|\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(y)| & = & |\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(x) + \phi(y) f_{b,n}(x) -\phi(y) f_{b,n}(y)|\\
-%& \leq & |\phi(x) f_{b,n}(x)-\phi(y) f_{b,n}(x)| + |\phi(y) f_{b,n}(x) -\phi(y) f_{b,n}(y)|\\
-%& = & |\phi(x)-\phi(y)||f_{b,n}(x)| + |\phi(y) || f_{b,n}(x) -f_{b,n}(y)|\\
-%& \leq & \epsilon \frac{1}{b} + M \frac{1}{b^2} |x-y|\\
-%& \leq & \epsilon \frac{1}{b} + M \frac{1}{b^2} \delta.
-%\end{eqnarray*}
-%
-%Selecting $0<\epsilon<\frac{b\eps}{4K}$, choose $N$ with $2K/N \leq min(\delta,\frac{b^2\eps}{4MK})$. Then partitioning the interval $[-K,K]$ into $N$ subintervals of equal length with endpoints $-K = a_0 < a_1 < \cdots < a_N = K$, we can estimate the integral by the Riemann sum $\Delta_n$:
-%
-%\begin{eqnarray*}
-%|\int_{\R} \phi(x) f_{b,n}(x) dx - \Delta_n | & =  & |\int_{\R} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \sum_{i=1}^N \phi(a_i)f_{b,n}(a_i) |\\
-%& = & |\sum_{i=1}^N(\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \phi(a_i)f_{b,n}(a_i)) |\\
-%& \leq & \sum_{i=1}^N|\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) dx - \frac{2K}{N} \phi(a_i)f_{b,n}(a_i)|\\
-%& = & \sum_{i=1}^N|\int_{a_{i-1}}^{a_i} \phi(x) f_{b,n}(x) - \phi(a_i)f_{b,n}(a_i) dx|\\
-%& \leq & \sum_{i=1}^N\int_{a_{i-1}}^{a_i} |\phi(x) f_{b,n}(x) - \phi(a_i)f_{b,n}(a_i)| dx\\
-%& \leq & \sum_{i=1}^N\int_{a_{i-1}}^{a_i} \frac{b\eps}{4K} \frac{1}{b} + M \frac{1}{b^2} \frac{b^2\eps}{4MK} dx\\
-%& = & \sum_{i=1}^N \frac{2K}{N} \frac{b\eps}{4K} \frac{1}{b} + M \frac{1}{b^2} \frac{b^2\eps}{4MK}\\
-%& = & 2K (\frac{\eps}{4K} + \frac{\eps}{4K})\\
-%& = & \eps.
-%\end{eqnarray*}
-%
-%The exact same inequality works if we replace $f_{b,n}$ by $f_b$.
-%
-%Now finally, every sequence $f_{b,n}(a_i)$ converges almost surely to $f_{b}(a_i)$, because we assumed that the Stieltjes transforms converge pointwise almost surely. This means that we can find almost surely an index $n$
-%
-%Partitions Riemann sums almost sure approximation by imaginary part uniform blah blah blah.
-
 \end{proof}
 
 \chapter{Deriving the semicircular law}\label{semic}
@@ -300,28 +270,30 @@ $\int_{\R} \phi(x) d\mu_n(x)$ converges to $\int_{\R} \phi(x) d\mu(x)$ almost su
 The objective is clear now: deriving the almost sure convergence of empirical spectral distributions to a limit reduces to proving the almost sure convergence of the Stieltjes tranforms.
 If the almost sure limit of Stieltjes transforms exists, we can deduce the limit measure by taking limit with the limit function.
 
-The Stieltjes transform of the ESD is
+If we denote the $n$ eigenvalues of $W_n$ by $\lambda_1, \ldots, \lambda_n$,  the Stieltjes transform of the ESD can be written as
 
-\begin{equation}
-S\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}.
-\end{equation}
+\begin{eqnarray*}
+S\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = & 
+\frac{1}{n} \sum_{i=1}^n \frac{1}{\lambda_i/\sqrt{n} - z}\\
+& = & \frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}.
+\end{eqnarray*}
 
-From now on, $z$ will be a fixed complex number with non-zero imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely, then we prove that the expectations have a limit function.
+From now on, $z$ will be a fixed complex number with positive imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that the expectations of the Stieltjes transforms have a limit function, then we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely.
 
-Consider the expectation of the empirical spectral measure.  By symmetry, we have
+Consider the expectation of the empirical spectral measure.  By linearity of expectation, we have
 
 \begin{eqnarray*}
 ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = &
 E(\frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1})\\
-& = & E(\frac{1}{n} \sum_{i=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii})\\
-& = & \frac{1}{n} \sum_{i=1}^n E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii}.
+& = & E(\frac{1}{n} \sum_{l=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii})\\
+& = & \frac{1}{n} \sum_{l=1}^n E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll}.
 \end{eqnarray*}
 
 Consider a fixed term in the sum.
 Using Schur complement, we have
 
 \begin{equation*}
-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = E\frac{1}{-z+\frac{\xi_{l,l}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}C},
+E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll} = E\frac{1}{-z+\frac{\xi_{l,l}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}C},
 \end{equation*}
 
 where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$, and $W_n^l$ is the matrix $W_n$ with $l$th column and row removed.
@@ -329,12 +301,12 @@ where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$, and $W_n^l$ is t
 First, consider the term $\xi_{ll}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
 
 \begin{equation*}
-P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
+P(|\frac{\xi_{ll}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
 \end{equation*}
 
-This means informally that the term doesn't affect the result by more than $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
+This means informally that the term is usually bounded by $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
 
-Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. Now condition $A$ to be fixed.
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will consider the concentration of the term $C^* A C$ for a fixed $A$.
 
 \begin{lem}
 For a fixed matrix $A$, we have
@@ -451,20 +423,55 @@ R \|A\|_2^2 & = & R \sum_{k_1=1}^{n-1} \sum_{k_2=1}^{n-1} |a_{k_1k_2}|^2\\
 \end{eqnarray*}
 \end{proof}
 
-We now have
+We can now apply Chebyshev's inequality to conclude $P(|C^* A C - tr(A)|>\lambda) \leq nRc^2/\lambda^2$, or equivalently $P(|C^* A C - tr(A)|>n^{\frac{3}{4}}\lambda) \leq Rc^2/\sqrt{n}\lambda^2$. We now have
 
 \begin{equation*}
-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -\frac{1-o(1)}{z+\frac{1}{n}Etr(\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1}) + o(1)} + o(1)Im(z)^{-1}.
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -E\frac{1-o(1)}{z+\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} + o(1)} + o(1)Im(z)^{-1},
 \end{equation*}
 
-The term $\frac{1}{n}Etr(\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})$ can be expressed with the expectation of the Stieltjes transform of $\mu_{\frac{1}{n-1}W_{n-1}}$. By the following lemma, the stability of the Stieltjes transform allows estimating it by 
-the expression we wish to control, namely $ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
+where the magnitude of the error terms does not depend on $l$. Next, we will approximate the term $\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ by the original Stieltjes transform $S\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
 
 \begin{lem}
+For any $l$ we have the estimate
 \begin{equation*}
-S_{n-1}(z) = S_n(z) + \frac{C_z}{n}.
+|\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)| \leq \frac{C_z}{n}.
 \end{equation*}
 \end{lem}
+
+\begin{proof}
+Knowing that both $W_n$ and $W_n^l$ are hermitian matrices, let $\lambda_1 \leq \lambda_2 \leq \ldots \lambda_n$ be the eigenvalues of $W_n$ and $\lambda_1' \leq \lambda_2' \leq \ldots \lambda_{n-1}'$ be the eigenvalues of $W_n^l$. We know by Cauchy interlacing formula that
+
+\begin{equation*}
+\lambda_{i} \leq \lambda_{i}' \leq \lambda_{i+1} (A)
+\end{equation*}
+
+for $1\leq i \leq n-1$.
+
+Now we see that the eigenvalues of $(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ are $(\lambda_i'/\sqrt{n}-z)^{-1}$ for $1\leq i \leq n-1$. Rewriting the difference we want to estimate and using triangle inequality gives
+
+\begin{eqnarray*}
+\left|\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)\right| & = & \frac{1}{n}
+\left|\sum_{i=1}^{n-1} \frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \sum_{i=1}^{n} \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right|\\
+& \leq & \frac{1}{n}
+\sum_{i=1}^{n-1} \left|\frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right| + \left|\frac{1}{\frac{\lambda_n}{\sqrt{n}}-z}\right|.
+\end{eqnarray*}
+
+Now we note that the intervals $]\lambda_i/\sqrt{n},\lambda_i'/\sqrt{n}[$ are disjoint by Cauchy interlacing formula. For any sequence $a_1 < a_2 < ... < a_{2m-1} < a_{2m}$, we have 
+
+in other words, the function $x \to (x-z)^1$ has bounded variation. 
+\end{proof}
+
+\begin{lem}
+For any index $n$ and positive number $\lambda$, we have
+\begin{equation*}
+P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \leq Ce^{-cn\lambda^2}.
+\end{equation*}
+for some constants $C, c > 0$, depending only on $z$.
+\end{lem}
+
+\begin{proof}
+zzzz
+\end{proof}
 
 By continuity (as the denominator is bounded away from zero) 
 
@@ -487,17 +494,7 @@ where the branch of the square root has positive imaginary part in upper half-pl
 
 With this it is already possible to prove a slightly weaker version of the semicircular law concerning the converge of the expectation measures $E\mu_n$, defined as $(E\mu)(A) = E(\mu(A))$. However, we can also recover almost sure convergence with following lemma, which is a special case of \emph{McDiarmid's inequality}.
 
-\begin{lem}
-For any index $n$ and positive number $\lambda$, we have
-\begin{equation*}
-P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \leq Ce^{-cn\lambda^2}.
-\end{equation*}
-for some constants $C, c > 0$, depending only on $z$.
-\end{lem}
-
-\begin{proof}
-zzzz
-\end{proof}
+Recall.
 
 Now, the sum $\sum_{n=1}^{\infty} Ce^{-cn\varepsilon}$ converges as a geometric series. Combining previous lemma with Borel-Cantelli lemma implies that almost surely
 
@@ -513,12 +510,12 @@ Now investigating the behaviour of imaginary part near real axis has
 & \to & \frac{1}{2\pi} \sqrt{(4-x^2)_+},
 \end{eqnarray*}
 
-meaning that the limit of the imaginary part of the Stieltjes transform is the \emph{Wigner semicircular distribution}. Now that we know what the limiting probability measure should be, the problem of verifying the limit measure reduces to straightforward computation.
+meaning that the limit of the imaginary part of the function is the \emph{Wigner semicircular distribution}. Now that we know what the limiting probability measure should be, the problem of verifying the limit measure reduces to straightforward computation.
 
 \begin{theo}
 Let $\mu_{sc}$ be the probability measure of the Wigner semicircular distribution. Then
 \begin{equation*}
-S\mu(z) = g(z).
+S\mu_{sc}(z) = g(z).
 \end{equation*}
 \end{theo}
 
@@ -573,7 +570,7 @@ Res(h_z,p_1) & = &
 & = & \sqrt{z^2-4}.
 \end{eqnarray*}
 
-Now by residue theoremwe have
+Now by residue theorem we have
 
 \begin{eqnarray*}
 S\mu_{sc}(z) & = & \frac{1}{4\pi i} \int_{|w|=1} \frac{-w^4+2w^2-1}{w^2(w^2+1 -zw)} dw\\
@@ -585,7 +582,7 @@ S\mu_{sc}(z) & = & \frac{1}{4\pi i} \int_{|w|=1} \frac{-w^4+2w^2-1}{w^2(w^2+1 -z
 By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ converges to the semicircular distribution almost surely in vague topology. We have finally proved:
 
 \begin{theo}
-\emph{Wigner semicircular law.} Statement of the semicircular law.
+\emph{Wigner semicircular law.} For an ensemble of Wigner matrices $(W_n)_{n=1}^{\infty}$ with all elements of matrices being independent and identically distributed, having zero mean, unit variance and bounded fourth moment, the empirical spectral distributions $\mu_{\frac{1}{\sqrt{n}}W_n}$ converges almost surely to Wigner semicircular distribution $\mu_{sc}$.
 \end{theo}
 
 
