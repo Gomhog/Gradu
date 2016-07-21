@@ -48,7 +48,8 @@
 
 \tableofcontents
 
-\chapter{Introduction}\label{intro}
+\chapter{Introduction}
+\label{intro}
 
 The purpose of this thesis is to make me a master.
 
@@ -63,7 +64,8 @@ Something something about random variables and stuff, matrices also. Spectral th
 See \cite{Tao}.
 \end{proof}
 
-\chapter{Setting}\label{setup}
+\chapter{Wigner matrices}
+\label{setup}
 
 \begin{defi}
 Suppose that $(\xi_{ij})_{i,j \in \Z_+}$ are random variables with $(\xi_{ij})_{i \leq j}$ being independent, $(\xi_{ii})_{i \in \Z_+}$ identically distributed real random variables, $(\xi_{ij})_{i<j}$ identically distributed complex random variables, and $\xi_{ij}=\overline{\xi_{ji}}$ for $i>j$. With such random variables, an associated \emph{Wigner matrix} (of size $n$) is the hermitian matrix
@@ -147,21 +149,92 @@ Let $(\mu_n)_{n=1}^{\infty}$ be a sequence of random measures.
 If for any test function $\phi$, the sequence $\int_{\R} \phi d\mu_n$ converges to $\int_{\R} \phi d\mu$ almost certainly, the we say that $\mu_n$ converges to $\mu$ almost certainly.
 \end{defi}
 
-\chapter{Stieltjes transform}\label{stieltjes}
+\section{Stieltjes transform}
+\label{stieltjes}
 
 
 It is possible to obtain the semicircular law in different ways, for example by considering the moments of $\mu_{\frac{1}{\sqrt{n}}W_n}$. We will return to the moments later. Now define the following tool, the Stieltjes transform:
 
 \begin{defi}
-For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined in upper half plane (and thus outside the support of $\mu$) as
+For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined in upper half plane $H_+$ (and thus outside the support of $\mu$) as
 \begin{equation*}
 S_{\mu} (z) := \int_{\R} \frac{1}{x-z} d \mu(x).
 \end{equation*}
 \end{defi}
 
-Some basic properties:
+We will first list some basic properties of the Stieltjes transform.
 
-Analytic, with derivative bounded by blah
+\begin{lem}
+For any probability measure $\mu$, the Stieltjes transform has following properties at any point $z \in H_+$:
+
+\begin{equation}\label{prop1}
+Im(S\mu(z)) > 0
+\end{equation}
+
+\begin{equation}\label{prop2}
+|S\mu(z)|\leq \frac{1}{Im(z)} 
+\end{equation}
+
+$S\mu$ is analytic in $H_+$ and
+
+\begin{equation}\label{prop3}
+|S\mu'(z)| \leq \frac{1}{(Im(z))^2}
+\end{equation}
+\end{lem}
+
+\begin{proof}
+To prove \ref{prop1}, we observe that for any $z = a + ib \in H_+$ and $x \in \R$ we have
+\begin{equation*}
+Im\frac{1}{x-z} = Im\frac{(x-a) +ib}{(x-a)^2+b^2} = \frac{b}{(x-a)^2+b^2} > 0.
+\end{equation*}
+Since $\mu$ is a probability measure, we immediately obtain \ref{prop1}.
+
+Next, we can estimate
+
+\begin{eqnarray*}
+|S\mu(z)| & = & \left| \int_{\R} \frac{1}{x-z} d \mu(x)  \right|\\
+& \leq & \int_{\R} \frac{1}{|x-z|} d \mu(x)\\
+& = & \int_{\R} \frac{1}{|x-a-ib|} d \mu(x)\\
+& = & \int_{\R} \frac{1}{\sqrt{(x-a)^2+b^2}} d \mu(x)\\
+& \leq & \int_{\R} \frac{1}{b} d \mu(x)\\
+& = & \frac{1}{b}\\
+& = & Im(z),
+\end{eqnarray*}
+
+obtaining \ref{prop2}.
+
+For any fixed $x \in \R$, the function $z \to (x-z)^1$ is analytic in upper half-plane. As the upper half-plane is simply connected, this means that for any closed piecewise smooth curve $\gamma$ in $H_+$ we have
+
+\begin{equation*}
+\int_{\gamma} \frac{1}{x-z}dz = 0.
+\end{equation*}
+
+Using Fubini's theorem, we get
+\begin{eqnarray*}
+\int_\gamma S\mu(z) dz & = & 
+\int_{\gamma} \int_{\R} \frac{1}{x-z} d\mu(x) dz\\
+& = & \int_{\R} \int_{\gamma} \frac{1}{x-z} dz d\mu(x)\\
+& = & \int_{\R} 0 d\mu(x)\\
+& = & 0,
+\end{eqnarray*}
+so $S\mu$ is analytic by Moreira's theorem.
+
+Using Fubini's theorem and Cauchy's integral formula, we have for sufficiently small $r$ 
+
+\begin{eqnarray*}
+S\mu '(z) & = & \frac{1}{2\pi i}
+\int_{\partial B(z,r)} \frac{S\mu(w)}{(w - z)^2} dw\\
+& = & \frac{1}{2\pi i}
+\int_{\partial B(z,r)} \int_{\R} \frac{\frac{1}{x-z}}{(w - z)^2} d\mu(x) dw\\
+& = &
+\int_{\R} \frac{1}{2\pi i} \int_{\partial B(z,r)} \frac{\frac{1}{x-z}}{(w - z)^2} dw d\mu(x)\\
+& = & \int_{\R} \left( \frac{d}{dz} \frac{1}{x-z} \right) d\mu(x)\\
+& = & \int_{\R}\frac{1}{(x-z)^2} d\mu(x).
+\end{eqnarray*}
+
+Using the estimate $|x-z| \geq Im(z)$ gives \ref{prop3}.
+
+\end{proof}
 
 The following two theorems demonstrate why the Stieltjes transform is helpful when investigating the limit behaviour of probability measures. The first allows recovering the probability measure from its Stieltjes transform and the second links the convergence of the measures to the convergence of their Stieltjes transforms.
 
@@ -265,7 +338,10 @@ As $\eps$ was arbitrary, we have that
 $\int_{\R} \phi(x) d\mu_n(x)$ converges to $\int_{\R} \phi(x) d\mu(x)$ almost surely.
 \end{proof}
 
-\chapter{Deriving the semicircular law}\label{semic}
+Observe that we only needed the convergence of the imaginary part of the Stieltjes transform to control the convergence of the probability measures. This is essentially because the imaginary part of the integral kernel is an approximation of identity. \footnote{Considering the limit of the real part of the Stieltjes transform leads to the theory of Hilbert transform which is not described here.}
+
+\chapter{Deriving the semicircular law}
+\label{semic}
 
 The objective is clear now: deriving the almost sure convergence of empirical spectral distributions to a limit reduces to proving the almost sure convergence of the Stieltjes tranforms.
 If the almost sure limit of Stieltjes transforms exists, we can deduce the limit measure by taking limit with the limit function.
@@ -280,33 +356,36 @@ S\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = &
 
 From now on, $z$ will be a fixed complex number with positive imaginary part. We will prove that the Stieltjes transforms converge almost surely in two parts. First we prove that the expectations of the Stieltjes transforms have a limit function, then we prove that the difference of Stieltjes transform and its expectation goes to zero almost surely.
 
-Consider the expectation of the empirical spectral measure.  By linearity of expectation, we have
+Consider the expectation of the empirical spectral measure. By linearity of expectation, we have
 
 \begin{eqnarray*}
 ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) & = &
 E(\frac{1}{n} tr(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1})\\
-& = & E(\frac{1}{n} \sum_{l=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ii})\\
-& = & \frac{1}{n} \sum_{l=1}^n E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll}.
+& = & E(\frac{1}{n} \sum_{l=1}^n(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll})\\
+& = & \frac{1}{n} \sum_{l=1}^n E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll}\\
+& = & E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{nn}.
 \end{eqnarray*}
 
-Consider a fixed term in the sum.
+The last equality holds because by Cramer's rule, the random variables $(1/\sqrt{n} W_n - z I_n)^{-1}_{ll}$ are identically distributed.
 Using Schur complement, we have
 
 \begin{equation*}
-E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{ll} = E\frac{1}{-z+\frac{\xi_{l,l}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}C},
+E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{nn} = E\frac{1}{-z+\frac{\xi_{nn}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}C},
 \end{equation*}
 
-where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$, and $W_n^l$ is the matrix $W_n$ with $l$th column and row removed.
+where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$.
 
-First, consider the term $\xi_{ll}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
+First, consider the term $\xi_{nn}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
 
 \begin{equation*}
-P(|\frac{\xi_{ll}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
+P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n}\lambda^2}. 
 \end{equation*}
 
 This means informally that the term is usually bounded by $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
 
-Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will consider the concentration of the term $C^* A C$ for a fixed $A$.
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will consider the concentration of the term $C^* A C$ for a fixed $A$.
+
+\section{Concentration of the quadratic form $C^* A C$}
 
 \begin{lem}
 For a fixed matrix $A$, we have
@@ -316,7 +395,7 @@ E(C^* A C) = tr(A).
 \end{lem}
 
 \begin{proof}
-Denote $c_i = \xi_{il}$ if $i<l$ and $c_i = \xi_{(i+1)l}$ if $i\geq l$.
+Denote $c_i = \xi_{in}$ for $1 \leq i \leq n-1$.
 As the random variables $c_i$ are independent and have mean zero and unit variance, we can compute
 \begin{eqnarray*}
 E(C^* A C) & = & E(\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j)\\
@@ -338,7 +417,7 @@ for a constant $R>0$ independent from $A$.
 \end{lem}
 
 \begin{proof}
-We computed the expectation in the previous lemma. As $Var(Y) = E(|Y|^2)-|E(Y)|^2$, we need to compute $E(|C^* A C|^2)$. Similarly to the previous lemma, we denote the component of $C$ by $c_i$ and compute
+We computed the expectation in the previous lemma. As $Var(Y) = E(|Y|^2)-|E(Y)|^2$, we need to compute $E(|C^* A C|^2)$. Similarly to the previous lemma, we denote the components of $C$ by $c_i$ and compute
 \begin{eqnarray*}
 E(|C^* A C|^2) & = & E(|\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j|^2)\\
 & = & E((\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j)
@@ -426,15 +505,15 @@ R \|A\|_2^2 & = & R \sum_{k_1=1}^{n-1} \sum_{k_2=1}^{n-1} |a_{k_1k_2}|^2\\
 We can now apply Chebyshev's inequality to conclude $P(|C^* A C - tr(A)|>\lambda) \leq nRc^2/\lambda^2$, or equivalently $P(|C^* A C - tr(A)|>n^{\frac{3}{4}}\lambda) \leq Rc^2/\sqrt{n}\lambda^2$. We now have
 
 \begin{equation*}
-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -E\frac{1-o(1)}{z+\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} + o(1)} + o(1)Im(z)^{-1},
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -E\frac{1-o(1)}{z+\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} + o(1)} + o(1)Im(z)^{-1}.
 \end{equation*}
 
-where the magnitude of the error terms does not depend on $l$. Next, we will approximate the term $\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ by the original Stieltjes transform $S\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
+Next, we will approximate the term $\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ by the original Stieltjes transform $S\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
 
-\begin{lem}
+\begin{lem} \label{est5}
 For any $l$ we have the estimate
 \begin{equation*}
-|\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)| \leq \frac{C_z}{n}.
+|\frac{1}{n}tr((\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}) - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)| \leq \frac{C_z}{n}.
 \end{equation*}
 \end{lem}
 
@@ -447,19 +526,44 @@ Knowing that both $W_n$ and $W_n^l$ are hermitian matrices, let $\lambda_1 \leq 
 
 for $1\leq i \leq n-1$.
 
-Now we see that the eigenvalues of $(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ are $(\lambda_i'/\sqrt{n}-z)^{-1}$ for $1\leq i \leq n-1$. Rewriting the difference we want to estimate and using triangle inequality gives
+Now we see that the eigenvalues of the matrix $B = (\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ are $(\lambda_i'/\sqrt{n}-z)^{-1}$ for $1\leq i \leq n-1$. Rewriting the difference we want to estimate and using triangle inequality gives
 
 \begin{eqnarray*}
-\left|\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)\right| & = & \frac{1}{n}
+\left|\frac{1}{n}tr(B) - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)\right| & = & \frac{1}{n}
 \left|\sum_{i=1}^{n-1} \frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \sum_{i=1}^{n} \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right|\\
-& \leq & \frac{1}{n}
-\sum_{i=1}^{n-1} \left|\frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right| + \left|\frac{1}{\frac{\lambda_n}{\sqrt{n}}-z}\right|.
+& \leq & \frac{1}{n} \left(
+\sum_{i=1}^{n-1} \left|\frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right| + \left|\frac{1}{\frac{\lambda_n}{\sqrt{n}}-z}\right| \right).
 \end{eqnarray*}
 
-Now we note that the intervals $]\lambda_i/\sqrt{n},\lambda_i'/\sqrt{n}[$ are disjoint by Cauchy interlacing formula. For any sequence $a_1 < a_2 < ... < a_{2m-1} < a_{2m}$, we have 
+Now we note that the intervals $]\lambda_i/\sqrt{n},\lambda_i'/\sqrt{n}[$ are disjoint by Cauchy interlacing formula. For any sequence $x_1 \leq x_2 \leq ... \leq x_{2m-1} \leq x_{2m}$, we can estimate with triangle inequality
 
-in other words, the function $x \to (x-z)^1$ has bounded variation. 
+\begin{eqnarray*}
+\sum_{j=1}^{m} \left|\frac{1}{x_{2j}-z} - \frac{1}{x_{2j-1}-z}\right| & = &
+\sum_{j=1}^{m} \left|\frac{1}{x_{2j}-(a+ib)} - \frac{1}{x_{2j-1}-(a+ib)}\right|\\
+& = & \sum_{j=1}^{m} \left|\frac{x_{2j}-a+ib}{x_{2j}-(a+ib)} - \frac{x_{2j-1}-a+ib}{(x_{2j-1}-a)^2+b^2)}\right|\\
+& \leq & \sum_{j=1}^{m} \left|\frac{x_{2j}-a}{(x_{2j}-a)^2+b^2} - \frac{x_{2j-1}-a}{(x_{2j-1}-a)^2+b^2)}\right| \\
+&  &+ \sum_{j=1}^{m} \left|\frac{b}{(x_{2j}-a)^2+b^2} - \frac{b}{(x_{2j-1}-a)^2+b^2)}\right|.
+\end{eqnarray*}
+
+Now we see that function $x \to (x-a)/((x-a)^2+b^2)$ is continuously differentiable. It has a maximum $1/2b$ at the point $x=a+b$, a minimum $-1/2b$ at $x=a-b$ and it approaches zero at $\pm \infty$. This means that the first sum is at most $2/b$.
+
+Likewise, considering the derivative of the function $x \to b/((x-a)^2+b^2)$ we see that it has a maximum $1/b$ at the point $x=a$ and it approaches zero at $\pm \infty$, so the second sum is at most $2/b$.
+
+In other words, the function $x \to (x-z)^{-1}$ has bounded variation for a fixed $z$. Using this for points, we see that  
+
+\begin{eqnarray*}
+\left|\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)\right| 
+& \leq & \frac{1}{n}
+\sum_{i=1}^{n-1} \left|\frac{1}{\frac{\lambda_i'}{\sqrt{n}}-z} - \frac{1}{\frac{\lambda_i}{\sqrt{n}}-z}\right| + \left|\frac{1}{\frac{\lambda_n}{\sqrt{n}}-z}\right|\\
+& \leq & \frac{1}{n} \left(\frac{2}{b} + \frac{2}{b}  + \left|\frac{1}{\frac{\lambda_n}{\sqrt{n}}-z}\right|\right)\\
+& \leq &  \frac{1}{n} \left( \frac{4}{b} + \frac{1}{b} \right)\\
+& = & \frac{5}{nb}.
+\end{eqnarray*}
+
+We get the claim by selecting $C_z = 5/b$.
 \end{proof}
+
+Finally, the following special case of \emph{McDiarmid's inequality} allows us to estimate the Stieltjes transform by its expectation:
 
 \begin{lem}
 For any index $n$ and positive number $\lambda$, we have
@@ -470,8 +574,120 @@ for some constants $C, c > 0$, depending only on $z$.
 \end{lem}
 
 \begin{proof}
-zzzz
+We define the real random variables $D_k$ for $0\leq k \leq n$ to be the conditional expectation
+\begin{equation*}
+D_k = Re(E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)|(\xi_{ij})_{i \leq j\leq k}),
+\end{equation*}
+in other words, the conditional expectation of the real part of the Stieltjes transform when we fix the random variables $\xi_{ij}$ for $i,j$ at most $k$. \footnote{This construction is known as the Doob martingale. The argument we will do is essentially using Azuma's inequality for this sequence.} We observe that $D_0 = Re(ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))$ and $D_n = Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))$.
+
+We claim that the inequality $|D_k-D_{k-1}|\leq C_z/n$ holds surely. To see this, note that
+\begin{equation*}
+D_k-D_{k-1} = ReE(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) - E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) | (\xi_{ij})_{i \leq j \neq k}) |(\xi_{ij})_{i \leq j\leq k}).
+\end{equation*}
+
+But we had in \ref{est5} that surely 
+\begin{equation*}
+|\frac{1}{n}tr((\frac{1}{\sqrt{n}}W_n^k-zI_{n-1})^{-1}) - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)| \leq \frac{C_z}{n},
+\end{equation*}
+so $|S\mu_{\frac{1}{\sqrt{n}}W_n}(z) - E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)| (\xi_{ik})_{i\leq k})|$ is bounded above by $C_z/n$. Taking the conditional expectation gives $|D_k-D_{k-1}|\leq C_z/n$.
+
+Next, we consider the exponential moment $Ee^{tD_n}$.
+We are going to prove next that
+\begin{equation*}
+Ee^{tD_k} \leq e^{\frac{1}{8}t^2\left(\frac{C_z}{n}\right)^2} Ee^{tD_k-1}
+\end{equation*}
+for any $1\leq k \leq n$. Applied inductively, this gives
+\begin{equation*}
+Ee^{tD_n} \leq e^{\frac{C_z^2t^2}{8n}} Ee^{tD_0}.
+\end{equation*}
+
+As $D_{k-1}$ does not depend on $\xi_{ik}$ for $i\leq k$, conditioning gives
+\begin{eqnarray*}
+Ee^{tD_k} & = & EE(e^{tD_k}|(\xi_{ij})_{i\leq j \neq k})\\
+& = & EE(e^{t(D_k-D_{k-1})}e^{tD_{k-1}}|(\xi_{ij})_{i\leq j \neq k})\\
+& = & E(e^{tD_{k-1}}E(e^{t(D_k-D_{k-1})}|(\xi_{ij})_{i\leq j \neq k})).
+\end{eqnarray*}
+
+Using Hoeffding's lemma, we conclude
+\begin{equation*}
+E(e^{t(D_k-D_{k-1})}|(\xi_{ij})_{i\leq j \neq k}) \leq
+e^{\frac{1}{8}t^2 \left(\frac{C_z}{n}\right)^2},
+\end{equation*}
+
+so we have
+
+\begin{equation*}
+Ee^{tD_k} = E(e^{tD_{k-1}}E(e^{t(D_k-D_{k-1})}|(\xi_{ij})_{i\leq j \neq k})) \leq e^{\frac{1}{8}t^2 \left(\frac{C_z}{n}\right)^2}Ee^{tD_{k-1}}. 
+\end{equation*}
+
+Now we have 
+
+\begin{equation*}
+Ee^{tRe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))} \leq e^{\frac{C_z^2t^2}{8n}} e^{tERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))},
+\end{equation*}
+
+or equivalently
+
+\begin{equation*}
+Ee^{t(Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \leq e^{\frac{C_z^2t^2}{8n}}.
+\end{equation*}
+
+Now by Markov's inequality for any $a > 0,$ we have
+
+\begin{equation*}
+P\left(e^{t(Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \geq  a \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{a},
+\end{equation*}
+
+which we may rewrite setting $a = e^{t\lambda}$ as
+
+\begin{equation*}
+P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{e^{t\lambda}}.
+\end{equation*}
+
+The right-hand side has a minimum at $t=(4\lambda n)/(C_z^2)$, so we get
+
+\begin{equation*}
+P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq
+e^{\frac{-2n\lambda^2}{C_z^2}}.
+\end{equation*}
+
+If we do the same argument with random variables $-D_k$, we obtain
+
+\begin{equation*}
+P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \leq  -\lambda \right) \leq
+e^{\frac{-2n\lambda^2}{C_z^2}}.
+\end{equation*}
+
+Taken together, these two estimates imply that
+
+\begin{equation*}
+P\left(|Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
+e^{\frac{-2n\lambda^2}{C_z^2}}.
+\end{equation*}
+
+We can repeat this argument for the imaginary part to conclude
+
+\begin{equation*}
+P\left(|Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
+e^{\frac{-2n\lambda^2}{C_z^2}}.
+\end{equation*}
+
+This means that we have an upper bound
+
+\begin{eqnarray*}
+P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) & \leq &
+P(|Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2) \\ & &+ 
+P(|Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2)\\
+& \leq & 2
+e^{\frac{-n\lambda^2}{2C_z^2}} + 2
+e^{\frac{-n\lambda^2}{2C_z^2}}\\
+& = & 4
+e^{\frac{-n\lambda^2}{2C_z^2}}.
+\end{eqnarray*}
+
 \end{proof}
+
+\section{Finishing the computation}
 
 By continuity (as the denominator is bounded away from zero) 
 
