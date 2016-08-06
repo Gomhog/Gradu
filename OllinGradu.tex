@@ -1,6 +1,6 @@
 \documentclass[12pt,a4paper,leqno]{report}
 
-\usepackage[ansinew]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amsthm}
 \usepackage{amsfonts}         
@@ -51,18 +51,15 @@
 \chapter{Introduction}
 \label{intro}
 
-The purpose of this thesis is to make me a master.
+A random matrix is a matrix-valued random variable. The idea of a random matrix dates back to the first half of the 20th century. Wishart \cite{Wis} used random matrices in statistics and von Neumann \cite{Neu} studied random matrices to estimate numerical errors.
+
+It was Eugene Wigner \cite{Wig1} who noticed the connection between eigenvalues of symmetric random matrices and spectrum of a heavy atom nucleus. He laid some of the first mathematical foundations of the theory \cite{Wig2} and proved a result that would be known as Wigner's semicircular law. This was a major breakthrough and motivation for the study of random matrices.
+
+Later applications of random matrix theory include telephone encryption and many topics in theoretical physics such as quantum chaos and quantum gravity. \cite{Diac}. The eigenvalues of random matrices also appear to be connected to the zeroes of the Riemann zeta function. \cite{Rud} The random matrices have many nice and interesting properties that not only answer the questions posed by applications but are also beautiful on their own.
+
+We will begin by deriving the semicircular law for random hermitian matrices by using Stieltjes transform. The outline of the proof is as in \cite{Tao} with some small modifications.
 
 
-Something something about random variables and stuff, matrices also. Spectral theorem might be good to state here?
-
-\begin{theo}\label{specth}
-\emph{Spectral theorem.} An $n \times n$ hermitian matrix has $n$ real eigenvalues, counting multiplicities.
-\end{theo}
-
-\begin{proof}
-See \cite{Tao}.
-\end{proof}
 
 \chapter{Wigner matrices}
 \label{setup}
@@ -156,7 +153,7 @@ If for any test function $\phi$, the sequence $\int_{\R} \phi d\mu_n$ converges 
 It is possible to obtain the semicircular law in different ways, for example by considering the moments of $\mu_{\frac{1}{\sqrt{n}}W_n}$. We will return to the moments later. Now define the following tool, the Stieltjes transform:
 
 \begin{defi}
-For a probability measure $\mu$ on real numbers, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined in upper half plane $H_+$ (and thus outside the support of $\mu$) as
+For a probability measure $\mu$ on real line, define its \emph{Stieltjes transform} $S_{\mu}$ to be a complex function defined in upper half plane $H_+$ (and thus outside the support of $\mu$) as
 \begin{equation*}
 S_{\mu} (z) := \int_{\R} \frac{1}{x-z} d \mu(x).
 \end{equation*}
@@ -383,9 +380,11 @@ P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n
 
 This means informally that the term is usually bounded by $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
 
-Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will consider the concentration of the term $C^* A C$ for a fixed $A$.
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will prove the concentration of the term $C^* A C$ near a deterministic value.
 
 \section{Concentration of the quadratic form $C^* A C$}
+
+The matrix $A$ is independent of the vector $C$. We may therefore consider the conditional expectation with fixed $A$.
 
 \begin{lem}
 For a fixed matrix $A$, we have
@@ -409,7 +408,7 @@ E(C^* A C) & = & E(\sum_{i=1}^{n-1} \sum_{j=1}^{n-1} \overline{c_i} a_{ij} c_j)\
 \end{proof}
 
 \begin{lem}
-For a fixed hermitian matrix $A$ with operator norm bounded by $c>0$, we have
+For a fixed matrix $A$ with operator norm bounded by $c>0$, we have
 \begin{equation*}
 Var(C^* A C) \leq R \| A \|_2^2 \leq n R c^2.
 \end{equation*}
@@ -502,16 +501,16 @@ R \|A\|_2^2 & = & R \sum_{k_1=1}^{n-1} \sum_{k_2=1}^{n-1} |a_{k_1k_2}|^2\\
 \end{eqnarray*}
 \end{proof}
 
-We can now apply Chebyshev's inequality to conclude $P(|C^* A C - tr(A)|>\lambda) \leq nRc^2/\lambda^2$, or equivalently $P(|C^* A C - tr(A)|>n^{\frac{3}{4}}\lambda) \leq Rc^2/\sqrt{n}\lambda^2$. We now have
+We can now apply Chebyshev's inequality to conclude $P(|C^* A C - tr(A)|>\lambda) \leq nRc^2/\lambda^2$, or equivalently $P(|C^* A C - tr(A)|>n^{\frac{3}{4}}\lambda) \leq Rc^2/\sqrt{n}\lambda^2$. Undoing the conditioning, we have
 
 \begin{equation*}
-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = -E\frac{1-o(1)}{z+\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1} + o(1)} + o(1)Im(z)^{-1}.
+P(|\frac{1}{n}C^* A C - \frac{1}{n}tr(A)|>\lambda / \sqrt[4]{n}) \leq Rc^2/\sqrt{n}\lambda^2 .
 \end{equation*}
 
-Next, we will approximate the term $\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}$ by the original Stieltjes transform $S\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
+Next, we will approximate the term $\frac{1}{n}tr(\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ by the original Stieltjes transform $S\mu_{\frac{1}{\sqrt{n}}W_n}(z)$.
 
 \begin{lem} \label{est5}
-For any $l$ we have the estimate
+For any $l$, denote $W_n^l$ the matrix $W_n$ with $l$th row and column removed. We have the estimate
 \begin{equation*}
 |\frac{1}{n}tr((\frac{1}{\sqrt{n}}W_n^l-zI_{n-1})^{-1}) - S_{\mu_{\frac{1}{\sqrt{n}}W_n}}(z)| \leq \frac{C_z}{n}.
 \end{equation*}
@@ -563,7 +562,7 @@ In other words, the function $x \to (x-z)^{-1}$ has bounded variation for a fixe
 We get the claim by selecting $C_z = 5/b$.
 \end{proof}
 
-Finally, the following special case of \emph{McDiarmid's inequality} allows us to estimate the Stieltjes transform by its expectation:
+Finally, the following special case of \emph{McDiarmid's inequality}\cite{McD} allows us to estimate the Stieltjes transform by its expectation:
 
 \begin{lem}
 For any index $n$ and positive number $\lambda$, we have
@@ -578,7 +577,7 @@ We define the real random variables $D_k$ for $0\leq k \leq n$ to be the conditi
 \begin{equation*}
 D_k = Re(E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)|(\xi_{ij})_{i \leq j\leq k}),
 \end{equation*}
-in other words, the conditional expectation of the real part of the Stieltjes transform when we fix the random variables $\xi_{ij}$ for $i,j$ at most $k$. \footnote{This construction is known as the Doob martingale. The argument we will do is essentially using Azuma's inequality for this sequence.} We observe that $D_0 = Re(ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))$ and $D_n = Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))$.
+in other words, the conditional expectation of the real part of the Stieltjes transform when we fix the random variables $\xi_{ij}$ for $i,j$ at most $k$. \footnote{This construction is known as the Doob martingale \cite{Doob}. The argument we will do is essentially using Azuma's inequality \cite{Azu} for this sequence.} We observe that $D_0 = Re(ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))$ and $D_n = Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))$.
 
 We claim that the inequality $|D_k-D_{k-1}|\leq C_z/n$ holds surely. To see this, note that
 \begin{equation*}
@@ -687,7 +686,27 @@ e^{\frac{-n\lambda^2}{2C_z^2}}.
 
 \end{proof}
 
+By triangle inequality, we can take all of the above to conclude
+\begin{eqnarray*}
+P(|\frac{1}{n}C^* A C - ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)| \geq 3 /\sqrt[4]{n}) & \leq &
+P(|\frac{1}{n}C^* A C - \frac{1}{n}tr(A)| \geq 1/\sqrt[4]{n})\\
+& & + P(|\frac{1}{n}tr(A) - S\mu_{\frac{1}{\sqrt{n}}W_n}(z)| \geq 1/\sqrt[4]{n})\\
+& & + P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z) - ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)| \geq 1/\sqrt[4]{n})\\
+& \leq &
+\frac{Rc^2}{\sqrt{n}}+0+ Ce^{-c\sqrt{n}}
+\end{eqnarray*}
+for any $n$ such that $1/\sqrt[4]{n} > C_z/n$, meaning $n>C_z^{\frac{3}{4}}$.
+
 \section{Finishing the computation}
+
+Setting $r(n) = 4/\sqrt[4]{n}$ and $p(n)= (1+R(Im(z))^{-2})/\sqrt{n} + Ce^{-c\sqrt{n}}$, we have that
+
+\begin{equation*}
+ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = (1-p(n)) \frac{-1}{z+ES\mu_{\frac{1}{n}W_n}(z) + \eps{n}} + p(n)t(n),
+\end{equation*}
+
+where for the error terms we have $|\eps(n)|\leq r(n)$ and $|t(n)| \leq 1/Im(z)$. Notice that both $r(n)$ and $p(n)$ converge to zero as $n$ goes to infinity.
+
 
 By continuity (as the denominator is bounded away from zero) 
 
@@ -708,11 +727,13 @@ ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = \frac{-z + \sqrt{z^2 - 4}}{2} +o(1),
 
 where the branch of the square root has positive imaginary part in upper half-plane.
 
-With this it is already possible to prove a slightly weaker version of the semicircular law concerning the converge of the expectation measures $E\mu_n$, defined as $(E\mu)(A) = E(\mu(A))$. However, we can also recover almost sure convergence with following lemma, which is a special case of \emph{McDiarmid's inequality}.
+We know now that the expectations of the Stieltjes transforms converge to a limit function. Recall that we proved the following estimate:
 
-Recall.
+\begin{equation*}
+P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) \leq Ce^{-cn\lambda^2}.
+\end{equation*} 
 
-Now, the sum $\sum_{n=1}^{\infty} Ce^{-cn\varepsilon}$ converges as a geometric series. Combining previous lemma with Borel-Cantelli lemma implies that almost surely
+Now, for any $\eps>0$, the sum $\sum_{n=1}^{\infty} Ce^{-cn\varepsilon}$ converges as a geometric series. Combining previous estimate with Borel-Cantelli lemma implies that almost surely
 
 \begin{equation*}
 S\mu_{\frac{1}{\sqrt{n}}W_n}(z) \to g(z) = \frac{-z + \sqrt{z^2-4}}{2}.
@@ -802,11 +823,49 @@ By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ co
 \end{theo}
 
 
-\chapter{What next?}\label{future}
+\chapter{What next?}
+\label{future}
 
-The future is here.
+Having proved the semicircular law, we observe some consequences. For example, we may immediately prove a lower bound for the operator norm of Wigner matrices. 
 
-As was mentioned before, it is also possible to prove the semicircular law by considering the moments of the empirical spectral distribution. Let us prove a slightly modified version of the semicircular law by this method.
+\begin{theo}
+\emph{Lower Bai-Yin theorem}. For an ensemble of Wigner matrices $(W_n)_{n \in \Z_+}$, we have for any $\eps > 0$ almost surely
+
+\begin{equation*}
+\|W_n\| > (2-\eps) \sqrt{n}
+\end{equation*}
+
+for large enough $n$. Here we denote the operator norm of matrix $A$ with $\| A \|$.
+\end{theo}
+
+\begin{proof}
+By semicircular law, we know that the empirical spectral distribution of $(1/\sqrt{n}) W_n$ converges to the semicircular distribution almost surely.
+
+Fix $\eps>0$. Let $g : \R \to [0,1]$ be a continuous function with
+$g(x)= 1$ if $|x|<2-\eps$ and $g(x) = 0$ if $|x|>2-\eps/2$.
+
+If $\|W_n\| < (2-\eps)\sqrt{n}$, then 
+
+\begin{equation*}
+\int_{\R} g(x) d\mu_{\frac{1}{\sqrt{n}}W_n}(x) = 1.
+\end{equation*}
+
+But we also see that
+
+\begin{equation*}
+\int_{\R} g(x) d\mu_{sc}(x) < 1.
+\end{equation*}
+
+This means that we can almost surely find $N$ such that
+
+\begin{equation*}
+\| W_n \| > (2-\eps) \sqrt{n}
+\end{equation*}
+
+for any $n>N$.
+\end{proof}
+
+As was mentioned before, it is also possible to prove the semicircular law by considering the moments of the empirical spectral distribution. Let us prove a slightly modified version of the semicircular law by this method. This also gives an upper bound for the operator norm for the kind of ensembles considered, showing that the previous bound is tight.
 
 \begin{theo}
 Let $(\xi_{ij})_{i,j \in \Z_+}$ be random variables (not necessarily identically distributed) such that $\xi_{ij}$
@@ -816,13 +875,73 @@ Then, defining Wigner matrix $W_n$ as before, the empirical spectral distributio
 
 The following result reduces this claim in a way similar to Stieltjes continuity theorem:
 
-\begin{thebibliography}{9}
+\begin{theo}
+\emph{Carleman continuity theorem} Suppose we have
+\end{theo}
+
+\begin{theo}
+The even moments of the semicircular distribution are
+
+\end{theo}
+
+\appendix
+
+\chapter{Basic probability theory}
+
+\begin{theo}
+Borel-Cantelli lemma.
+\end{theo}
+
+\begin{theo}
+Hoeffiding's lemma \cite{Hoef}.
+\end{theo}
+
+
+
+\chapter{Hermitian matrices}
+
+\begin{theo}
+Spectral theorem.
+\end{theo}
+
+\begin{theo}
+Cauchy interlacing formula.
+\end{theo}
+
+\begin{thebibliography}{99}
+
+\bibitem{Diac}
+Persi Diaconis: Patterns in Eigenvalues: the 70th Josiah Williard Gibbs Lecture, Bull. Amer. Math. Soc. (New Ser.), 40 (2) (2003), p. 155-177.
+
+\bibitem{Wis}
+John Wishart: The Generalised Product Moment Distribution in Samples from a Normal Multivariate Population, Biometrika, 20A (1/2) (1928), p. 32-52.
+
+\bibitem{Wig1}
+A. Lane, R. G. Thomas, E. P. Wigner: Giant Resonance Interpretation of the Nucleon-Nucleus Interaction, Phys. Rev., 98 (1955), p. 693-701. 
+
+\bibitem{Wig2}
+Eugene P. Wigner: Characteristic vectors of bordered matrices with infinite dimensions, Ann. Math., 62 (3) (1955), p. 548-564.
+
+\bibitem{Neu}
+J. von Neumann, H. H. Goldstine: Numerical inverting of matrices of high order, Bull. Amer. Math. Soc., 53 (11) (1947), p. 1021-1099.
+
+\bibitem{Hoef}
+Wassily Hoeffding: Probability Inequalities for Sums of Bounded Random Variables, Journ. Amer. Stat. Ass., 58 (301) (1963), p. 13-30.
+
+\bibitem{McD}
+Colin McDiarmid: On the Method of Bounded Differences, Surveys in Combinatorics, 141 (1989), p. 148-188.
+
+\bibitem{Doob}
+Joseph L. Doob: Regularity Properties of Certain Families of Chance Variables, Trans. Amer. Math. Soc., 47 (3) (1940), p. 455-486
+
+\bibitem{Azu}
+Kazuoki Azuma: Weighted sums of certain dependent random variables, Tohoku Math. J., 19 (3) (1967), p. 357-367.
 
 \bibitem{Tao}
-Terence Tao: Topics in random matrix theory, 
+Terence Tao: Topics in random matrix theory, American Mathematical Society, 2012.
 
-\bibitem{Duo}
-Javier Duoandikoetxea: Fourier analysis, 2.\ painos, Limes ry, 1990.
+\bibitem{Rud}
+Zeév Rudnick, Peter Sarnak: Zeroes of principal L-functions and random matrix theory, Duke Math. J., 81 (2) (1996), p. 269-322.
 
 \end{thebibliography}
 
