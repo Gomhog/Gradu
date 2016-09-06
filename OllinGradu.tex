@@ -16,6 +16,8 @@
 \newcommand{\diam}{\operatorname{diam}}
 
 \newcommand{\eps}{\varepsilon}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
 
 \theoremstyle{plain}
 \newtheorem{theo}[equation]{Theorem}
@@ -165,24 +167,24 @@ We will first list some basic properties of the Stieltjes transform.
 For any probability measure $\mu$, the Stieltjes transform has following properties at any point $z \in H_+$:
 
 \begin{equation}\label{prop1}
-Im(S\mu(z)) > 0
+\Im(S\mu(z)) > 0
 \end{equation}
 
 \begin{equation}\label{prop2}
-|S\mu(z)|\leq \frac{1}{Im(z)} 
+|S\mu(z)|\leq \frac{1}{\Im(z)} 
 \end{equation}
 
 $S\mu$ is analytic in $H_+$ and
 
 \begin{equation}\label{prop3}
-|S\mu'(z)| \leq \frac{1}{(Im(z))^2}
+|S\mu'(z)| \leq \frac{1}{(\Im(z))^2}
 \end{equation}
 \end{lem}
 
 \begin{proof}
 To prove \ref{prop1}, we observe that for any $z = a + ib \in H_+$ and $x \in \R$ we have
 \begin{equation*}
-Im\frac{1}{x-z} = Im\frac{(x-a) +ib}{(x-a)^2+b^2} = \frac{b}{(x-a)^2+b^2} > 0.
+\Im\frac{1}{x-z} = \Im\frac{(x-a) +ib}{(x-a)^2+b^2} = \frac{b}{(x-a)^2+b^2} > 0.
 \end{equation*}
 Since $\mu$ is a probability measure, we immediately obtain \ref{prop1}.
 
@@ -195,7 +197,7 @@ Next, we can estimate
 & = & \int_{\R} \frac{1}{\sqrt{(x-a)^2+b^2}} d \mu(x)\\
 & \leq & \int_{\R} \frac{1}{b} d \mu(x)\\
 & = & \frac{1}{b}\\
-& = & Im(z),
+& = & \Im(z),
 \end{eqnarray*}
 
 obtaining \ref{prop2}.
@@ -229,7 +231,7 @@ S\mu '(z) & = & \frac{1}{2\pi i}
 & = & \int_{\R}\frac{1}{(x-z)^2} d\mu(x).
 \end{eqnarray*}
 
-Using the estimate $|x-z| \geq Im(z)$ gives \ref{prop3}.
+Using the estimate $|x-z| \geq \Im(z)$ gives \ref{prop3}.
 
 \end{proof}
 
@@ -370,7 +372,7 @@ Using Schur complement, we have
 E(\frac{1}{\sqrt{n}}W_n - z I_n)^{-1}_{nn} = E\frac{1}{-z+\frac{\xi_{nn}}{\sqrt{n}}-\frac{1}{n}C^* (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}C},
 \end{equation*}
 
-where $C$ is the column vector $(\xi_{il})_{i=1, i\neq l}^{n}$.
+where $C$ is the column vector $(\xi_{in})_{i=1}^{n-1}$.
 
 First, consider the term $\xi_{nn}/\sqrt{n}$. From zero mean and unit variance hypothesis, it immediately follows by Markov's inequality that
 
@@ -380,7 +382,7 @@ P(|\frac{\xi_{nn}}{\sqrt{n}}|>\frac{\lambda}{\sqrt[4]{n}}) \leq \frac{1}{\sqrt{n
 
 This means informally that the term is usually bounded by $o(1)$. Notice that we could have assumed instead that the diagonal elements have a finite mean and variance, and a similar result would have followed.
 
-Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will prove the concentration of the term $C^* A C$ near a deterministic value.
+Now consider the other random term. Notice that the matrix $A = (\frac{1}{\sqrt{n}}W_{n-1}-zI_{n-1})^{-1}$ has $n-1$ eigenvalues, and the eigenvalues are bounded below in absolute value by $|\Im(z)|^{-1}$. Also, matrix $A$ is independent from the vector $C$. We will prove the concentration of the term $C^* A C$ near a deterministic value.
 
 \section{Concentration of the quadratic form $C^* A C$}
 
@@ -575,13 +577,13 @@ for some constants $C, c > 0$, depending only on $z$.
 \begin{proof}
 We define the real random variables $D_k$ for $0\leq k \leq n$ to be the conditional expectation
 \begin{equation*}
-D_k = Re(E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)|(\xi_{ij})_{i \leq j\leq k}),
+D_k = \Re(E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)|(\xi_{ij})_{i \leq j\leq k}),
 \end{equation*}
-in other words, the conditional expectation of the real part of the Stieltjes transform when we fix the random variables $\xi_{ij}$ for $i,j$ at most $k$. \footnote{This construction is known as the Doob martingale \cite{Doob}. The argument we will do is essentially using Azuma's inequality \cite{Azu} for this sequence.} We observe that $D_0 = Re(ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))$ and $D_n = Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))$.
+in other words, the conditional expectation of the real part of the Stieltjes transform when we fix the random variables $\xi_{ij}$ for $i,j$ at most $k$. \footnote{This construction is known as the Doob martingale \cite{Doob}. The argument we will do is essentially using Azuma's inequality \cite{Azu} for this sequence.} We observe that $D_0 = \Re(ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))$ and $D_n = \Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))$.
 
 We claim that the inequality $|D_k-D_{k-1}|\leq C_z/n$ holds surely. To see this, note that
 \begin{equation*}
-D_k-D_{k-1} = ReE(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) - E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) | (\xi_{ij})_{i \leq j \neq k}) |(\xi_{ij})_{i \leq j\leq k}).
+D_k-D_{k-1} = \Re E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) - E(S\mu_{\frac{1}{\sqrt{n}}W_n}(z) | (\xi_{ij})_{i \leq j \neq k}) |(\xi_{ij})_{i \leq j\leq k}).
 \end{equation*}
 
 But we had in \ref{est5} that surely 
@@ -622,52 +624,52 @@ Ee^{tD_k} = E(e^{tD_{k-1}}E(e^{t(D_k-D_{k-1})}|(\xi_{ij})_{i\leq j \neq k})) \le
 Now we have 
 
 \begin{equation*}
-Ee^{tRe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))} \leq e^{\frac{C_z^2t^2}{8n}} e^{tERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))},
+Ee^{t\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))} \leq e^{\frac{C_z^2t^2}{8n}} e^{tE\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))},
 \end{equation*}
 
 or equivalently
 
 \begin{equation*}
-Ee^{t(Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \leq e^{\frac{C_z^2t^2}{8n}}.
+Ee^{t(\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-E\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \leq e^{\frac{C_z^2t^2}{8n}}.
 \end{equation*}
 
 Now by Markov's inequality for any $a > 0,$ we have
 
 \begin{equation*}
-P\left(e^{t(Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \geq  a \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{a},
+P\left(e^{t(\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-E\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)))} \geq  a \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{a},
 \end{equation*}
 
 which we may rewrite setting $a = e^{t\lambda}$ as
 
 \begin{equation*}
-P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{e^{t\lambda}}.
+P\left((\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-E\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq \frac{e^{\frac{C_z^2t^2}{8n}}}{e^{t\lambda}}.
 \end{equation*}
 
 The right-hand side has a minimum at $t=(4\lambda n)/(C_z^2)$, so we get
 
 \begin{equation*}
-P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq
+P\left((\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-E\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \geq  \lambda \right) \leq
 e^{\frac{-2n\lambda^2}{C_z^2}}.
 \end{equation*}
 
 If we do the same argument with random variables $-D_k$, we obtain
 
 \begin{equation*}
-P\left((Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-ERe(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \leq  -\lambda \right) \leq
+P\left((\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))-E\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z))) \leq  -\lambda \right) \leq
 e^{\frac{-2n\lambda^2}{C_z^2}}.
 \end{equation*}
 
 Taken together, these two estimates imply that
 
 \begin{equation*}
-P\left(|Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
+P\left(|\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
 e^{\frac{-2n\lambda^2}{C_z^2}}.
 \end{equation*}
 
 We can repeat this argument for the imaginary part to conclude
 
 \begin{equation*}
-P\left(|Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
+P\left(|\Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)-ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))| \geq  \lambda \right)  \leq 2
 e^{\frac{-2n\lambda^2}{C_z^2}}.
 \end{equation*}
 
@@ -675,8 +677,8 @@ This means that we have an upper bound
 
 \begin{eqnarray*}
 P(|S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z)|>\lambda) & \leq &
-P(|Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2) \\ & &+ 
-P(|Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2)\\
+P(|\Re(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2) \\ & &+ 
+P(|\Im(S\mu_{\frac{1}{\sqrt{n}}W_n}(z)- ES\mu_{\frac{1}{\sqrt{n}}W_n}(z))|>\lambda/2)\\
 & \leq & 2
 e^{\frac{-n\lambda^2}{2C_z^2}} + 2
 e^{\frac{-n\lambda^2}{2C_z^2}}\\
@@ -699,13 +701,13 @@ for any $n$ such that $1/\sqrt[4]{n} > C_z/n$, meaning $n>C_z^{\frac{3}{4}}$.
 
 \section{Finishing the computation}
 
-Setting $r(n) = 4/\sqrt[4]{n}$ and $p(n)= (1+R(Im(z))^{-2})/\sqrt{n} + Ce^{-c\sqrt{n}}$, we have that
+Setting $r(n) = 4/\sqrt[4]{n}$ and $p(n)= (1+R(\Im(z))^{-2})/\sqrt{n} + Ce^{-c\sqrt{n}}$, we have that
 
 \begin{equation*}
 ES\mu_{\frac{1}{\sqrt{n}}W_n}(z) = (1-p(n)) \frac{-1}{z+ES\mu_{\frac{1}{n}W_n}(z) + \eps{n}} + p(n)t(n),
 \end{equation*}
 
-where for the error terms we have $|\eps(n)|\leq r(n)$ and $|t(n)| \leq 1/Im(z)$. Notice that both $r(n)$ and $p(n)$ converge to zero as $n$ goes to infinity.
+where for the error terms we have $|\eps(n)|\leq r(n)$ and $|t(n)| \leq 1/\Im(z)$. Notice that both $r(n)$ and $p(n)$ converge to zero as $n$ goes to infinity.
 
 
 By continuity (as the denominator is bounded away from zero) 
@@ -742,7 +744,7 @@ S\mu_{\frac{1}{\sqrt{n}}W_n}(z) \to g(z) = \frac{-z + \sqrt{z^2-4}}{2}.
 Now investigating the behaviour of imaginary part near real axis has
 
 \begin{eqnarray*}
-\frac{1}{\pi} Im(g(x+yi)) & = &
+\frac{1}{\pi} \Im(g(x+yi)) & = &
 \frac{y}{2\pi} + \frac{\sqrt{\frac{4-x^2+y^2+\sqrt{(x^2-y^2-4)^2+4x^2y^2}}{2}}}{2\pi}\\
 & \to & \frac{1}{2\pi} \sqrt{(4-x^2)_+},
 \end{eqnarray*}
@@ -826,6 +828,96 @@ By Stieltjes continuity theorem, we deduce that $\mu_{\frac{1}{\sqrt{n}}W_n}$ co
 \chapter{What next?}
 \label{future}
 
+Recall that the central limit theorem states that for a sequence of independent identically distributed real random variables $(X_i)$ with zero mean and unit variance, the distribution of $(\sum_{i=1}^{n}X_i)/\sqrt{n}$ approaches the standard normal distribution. As the sum of independent Gaussian random variables is Gaussian, this can be used in a proof of the central limit theorem. However, this approach does not work for empirical spectral distributions because of the following lemma:
+
+\begin{lem}
+For any $K>0$, we have for sufficiently large $n$
+
+\begin{equation*}
+P(\mu_{\frac{1}{\sqrt{n}}W_n} (\{x \in \R : |x|>K\} > 0)) > 0.
+\end{equation*}
+
+\end{lem}
+
+\begin{proof}
+By unit variance hypothesis, we know that $P(|\xi_{ij}| \geq 1) > 0$ for any $i<j$.
+By triangle inequality, either $P(|\Re(\xi_{ij})| \geq 1/2) > 0$ or $P(|\Im(\xi_{ij})| \geq 1/2) > 0$.
+
+Suppose that $P(|\Re(\xi_{ij})| \geq 1/2) > 0$.
+By considering the matrix $-W_n$ we may assume $P(\Re(\xi_{ij}) \geq 1/2) = p > 0$. Define $V=\{z \in \C : \Re(z)> 1/2\}$.
+
+Considering the projections to the real line, we see that if $z_1,\ldots,z_n \in V$, then $|\sum_{j=1}^{n}z_j| \geq n/2$. Since $V$ is symmetric with respect to the real axis, we have that $\xi_{ij} \in V$ if and only if $\xi_{ji} \in V$.
+
+For any $n>1$, we have that $P(\xi_{ij} \in V, 1 \leq i<j\leq n) = p^{n(n-1)/2} > 0$. Additionally, by unit variance hypothesis, we know that $P(|\xi_{ii}|<2, 1\leq i \leq n) = q^n > 0$. When both of these events happen, consider the vector $ v =e_1+e_2+\ldots + e_n$ for $n > 5$:
+
+\begin{eqnarray*}
+\|\frac{1}{\sqrt{n}}W_nv\| & = & \frac{1}{\sqrt{n}} \left\| \sum_{i=1}^n (\sum_{j=1}^n\xi_{ij})e_i \right\|  \\
+& = & \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1}^n\xi_{ij}|^2}\\
+& \geq & \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n \left(|\sum_{j=1, j\neq i}^n \xi_{ij}|-|\xi_{ii}|\right)^2}\\
+& \geq & \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n \left(|\sum_{j=1, j\neq i}^n \xi_{ij}|-2\right)^2}\\
+& \geq &  \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n \left(\frac{n-1}{2}-2\right)^2}\\
+& = & \frac{1}{\sqrt{n}} \sqrt{n \left(\frac{n-1}{r}-2\right)^2}\\
+& = & \sqrt{\left(\frac{n-1}{2}-2\right)^2}\\
+& = & \frac{n-5}{2}.
+\end{eqnarray*}
+
+Now $\|v\| = \sqrt{n}$, so we know that the operator norm of $\frac{1}{\sqrt{n}} W_n$ is at least $((n-5)/2\sqrt{n}$. For large enough $n$ this is always bigger than $K$. This means that $\mu_{\frac{1}{\sqrt{n}}W_n} \{x \in \R : |x|>K\} > 0)) \geq 1/n > 0$ with probability at least $p^{n(n-1)/2}q^n$.
+
+
+Now we consider the case $P(|\Im(\xi_{ij})| \geq 1/2) > 0$. We may assume that $P(\Im(\xi_{ij}) \geq 1/2) > 0$. Representing the half-plane $V = \{ z \in \C : \Im(z) \geq 1/2\}$ as a countable union, we conclude that $P(\Im(\xi_{ij} \in [r,2r])) = p > 0$ for some $r\geq 1/2$.
+
+Defining $v$ as before, we have 
+
+\begin{equation*}
+\|\frac{1}{\sqrt{n}}W_nv\| = \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1}^n\xi_{ij}|^2}.
+\end{equation*}
+
+Now we know that $\xi_{ij}$ is purely real if $i=j$. Then we know
+
+\begin{eqnarray*}
+\frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1}^n\xi_{ij}|^2} & = & \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1,j\neq i}^n \Im(\xi_{ij})|^2 + |\sum_{j=1}^{n} \Re(\xi_{ij})|^2}\\
+& \geq & \frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1,j\neq i}^n\Im(\xi_{ij})|^2}
+\end{eqnarray*}
+
+We know that $P(\Im(\xi_{ij} \in [r,2r], 1 \leq i<j\leq n) = p^{n(n-1)/2} > 0$. In the case where this happens we can estimate the inner sums as follows:
+
+\begin{eqnarray*}
+|\sum_{j=1,j\neq i}^n \Im(\xi_{ij})| & \geq &
+\sum_{j=1,j\neq i}^n \Im(\xi_{ij})\\
+& = & \sum_{j=1}^{i-1}Im(\xi_{ij}) + \sum_{j=i+1}^n \Im(\xi_{ij})\\
+& \geq & \sum_{j=1}^{i-1} r - \sum_{j=i+1}^n 2r\\
+& = & (i-1)r - 2(n-i)r\\
+& = & (3i - (2n+1))r
+\end{eqnarray*}
+
+We observe that this estimate is positive for $i> (2n+1)/3$. This means we can estimate for $n>7$
+
+\begin{eqnarray*}
+\frac{1}{\sqrt{n}} \sqrt{\sum_{i=1}^n |\sum_{j=1,j\neq i}^n \Im(\xi_{ij})|^2} & \geq & \frac{1}{\sqrt{n}} \sqrt{\sum_{i>(2n+1)/3}^n |\sum_{j=1,j\neq i}^n \Im(\xi_{ij})|^2}\\
+& \geq & \frac{1}{\sqrt{n}} \sqrt{\sum_{i>(2n+1)/3}^n (3i - (2n+1))^2r^2}\\
+& \geq & \frac{r}{\sqrt{n}} \sqrt{\int_{(2n+1)/3}^{n-2} (3x - (2n+1))^2dx}\\
+& = & \frac{r}{\sqrt{n}} \sqrt{\frac{1}{9}n^3 - \frac{7}{3}n^2+\frac{49}{3}n-\frac{343}{9}}\\
+& = & \frac{r}{\sqrt{n}} \sqrt{\frac{(n-7)^3}{9}}\\
+& \geq & \sqrt{\frac{(n-7)^3}{36n}}
+\end{eqnarray*}
+Now once again, we know that the operator norm must be at least $\sqrt{(n-7)^3}/6n$, so the claim follows for large enough $n$.
+\end{proof}
+
+The previous lemma means that for a Wigner matrix $W_n$, the expected proportion of the eigenvalues $\lambda$ with $|\lambda| > K\sqrt{n}$ becomes positive after $n$ goes large enough. By semicircular law, this expectation goes to zero as $n$ goes to infinity for $K > 2$. As the semicircular distribution is compactly supported, the following corollary is evident.
+
+\begin{cor}
+It is not possible to choose the random variables $\xi_{ij}$ in Wigner matrix in a way such that for all $n$
+
+\begin{equation*}
+E\mu_{\frac{1}{\sqrt{n}}W_n} = \mu_{sc}. 
+\end{equation*}
+
+In fact, for any choice of the random variables, the equality does not hold for any $n>C$ for some constant $C$ independent from the choice.
+
+\end{cor}
+
+
+
 Having proved the semicircular law, we observe some consequences. For example, we may immediately prove a lower bound for the operator norm of Wigner matrices. 
 
 \begin{theo}
@@ -884,29 +976,263 @@ The even moments of the semicircular distribution are
 
 \end{theo}
 
+
+
 \appendix
 
-\chapter{Basic probability theory}
+\chapter{Some theorems from probability theory}
+
+Let $X_n$ be random variables for $n \in \N$, and $X$ be another random variable. We say that $X_n$ converges to $X$ almost surely if for any $\eps > 0$
+
+\begin{equation*}
+P(|X_n-X|>\eps \textrm{ for infinitely many $n$}) = 0,
+\end{equation*}
+
+or equivalently,
+\begin{equation*}
+P(\limsup_{n \to \infty} |X_n-X|>\eps) =
+\lim_{n\to \infty} P(\bigcup_{k\geq n} \{|X_k-X|>\eps\}) = 0.
+\end{equation*}
+
 
 \begin{theo}
-Borel-Cantelli lemma.
+Borel-Cantelli lemma, strong version. Suppose that we have sequences of random variables $(X_n)$ and $(Y_n)$. Suppose also that $Y_n$ converges to a random variable $Y$ almost surely, and that $ \sum_n P(|X_n-Y_n|>\eps) < \infty$ for any $\eps > 0$. Then $X_n$ converges to $Y$ almost surely. 
 \end{theo}
 
+\begin{proof}
+Fix $\eps > 0$. By triangle inequality, we know that for any $n$ we have
+
+\begin{equation*}
+\{|X_n-Y|>\eps\} \subset \{|X_n-Y_n|>\eps /2\} \cup \{|Y_n-Y|>\eps /2\}.
+\end{equation*}
+
+Using this with union bound, we conclude that 
+\begin{equation*}
+P(\bigcup_{k\geq n}\{|X_k-Y|>\eps\}) \leq P(\bigcup_{k\geq n}\{|X_k-Y_k|>\eps /2\}) + P(\bigcup_{k\geq n}\{|Y_k-Y|>\eps /2\}).
+\end{equation*}
+
+As $Y_n$ converges to $Y$ almost surely, we already know that 
+\begin{equation*}
+\lim_{n \to \infty} P(\bigcup_{k\geq n}\{|Y_k-Y|>\eps /2\}) = 0.
+\end{equation*}
+
+Using sub-additivity, we obtain
+\begin{equation*}
+P(\bigcup_{k\geq n}\{|X_k-Y_k|>\eps /2\}) \leq \sum_{k\geq n} P(\{|X_k-Y_k|>\eps /2\}),
+\end{equation*}
+and the right hand side tends to zero as $n$ grows to infinity. This proves that $X_n$ converges to $Y$ almost surely.
+\end{proof}
+
 \begin{theo}
-Hoeffiding's lemma \cite{Hoef}.
+Hoeffiding's lemma \cite{Hoef}. Let $X$ be an almost surely bounded real random variable; in other words $X \in [a,b]$ almost surely. Then for any $t \geq 0$
+\begin{equation*}
+Ee^{tX} \leq e^{tEX} \exp(\frac{(b-a)^2}{8}t^2).
+\end{equation*}
 \end{theo}
+
+\begin{proof}
+We may assume that $EX = 0$ and $b-a = 1$. Fix $t \geq 0$.
+An application of Jensen's inequality shows that for any $x \in [a,b]$
+
+\begin{equation*}
+e^{tx} \leq (b-x)e^{ta}+(x-a)e^{tb}.
+\end{equation*}
+
+This implies that
+\begin{eqnarray*}
+Ee^{tX} & \leq & (b-EX)e^{ta}+(EX-a)e^{tb}\\
+& = & e^{ta}(b-ae^t)\\
+& = & e^{ta+\ln(1+a-ae^t)}\\
+& = & e^{g(t)}.
+\end{eqnarray*}
+
+It remains to show that $g(t) \leq \frac{1}{8}t^2$. Computing the derivatives up to second order and using Taylor's theorem gives
+\begin{eqnarray*}
+g'(t) & = & a + \frac{-ae^t}{1+a-ae^t}\\
+g''(t) & = & -\left( \frac{-ae^t}{1+a-ae^t} \right)^2 + \frac{-ae^t}{1+a-ae^t} \leq \frac{1}{4}\\
+g(0) & = &  0\\
+g'(0) & = & 0\\
+g(t) & = & 0 + 0\cdot t + \frac{g''(\xi)}{2}t^2
+\end{eqnarray*}
+for some $\xi \in (0,t)$. As $g''(\xi) \leq 1/4$, we obtain $g(t) \leq \frac{1}{8}t^2$, proving the claim.
+\end{proof}
 
 
 
 \chapter{Hermitian matrices}
 
-\begin{theo}
-Spectral theorem.
-\end{theo}
+An $n \times n$ complex matrix $A$ is a Hermitian matrix if $a_{ij} = \overline{a_{ji}}$ for any $1\leq i,j \leq n$. This is equivalent to having $\langle v, Aw \rangle = \langle Av, w \rangle$, in other words, $A$ is a self-adjoint operator of the Hilbert space $\C^n$.
 
 \begin{theo}
-Cauchy interlacing formula.
+Spectral theorem. A hermitian $n \times n$ matrix has $n$ orthogonal eigenvectors, and their associated eigenvalues are real.
 \end{theo}
+
+\begin{proof}
+We will prove by induction that any self-adjoint operator of $n$-dimensional Hilbert space has $n$ eigenvectors with associated real eigenvalues. The claim holds trivially in zero-dimensional spaces.
+
+Assume now that the claim holds in $(n-1)$-dimensional Hilbert spaces, and let $A$ be a self-adjoint operator in $n$-dimensional Hilbert space. Consider the characteristic polynomial $\det(A-\lambda I_n)$. This is a polynomial of degree $n\geq 1$, so it has a complex root $\lambda_n$ by the fundamental theorem of algebra.
+
+As $\det(A-\lambda_n I_n)=0$, we can find a vector $v_n \neq 0$ such that $Av_n = \lambda_n v_n$. As we now have an eigenvector, it remains to show that $\lambda_n$ is real and that we can use the induction hypothesis.
+
+Using self-adjointness, we see that
+\begin{eqnarray*}
+\lambda_n \langle v_n,v_n \rangle & = &
+\langle \lambda_n v_n,v_n \rangle\\
+& = & \langle Av_n,v_n \rangle \\
+& = & \langle v_n,Av_n \rangle \\
+& = &\langle v_n,\lambda_n v_n \rangle\\
+& = & \overline{\lambda_n} \langle v_n, v_n \rangle.
+\end{eqnarray*}
+
+This proves that $\lambda_n$ is real. To use the induction hypothesis, consider a vector $w$ with $\langle v_n,w \rangle = 0$. We see that
+
+\begin{eqnarray*}
+\langle v_n, Aw \rangle & = & \langle Av_n , w \rangle\\
+& = & \lambda_n \langle v_n,w \rangle\\
+& = & 0,
+\end{eqnarray*}
+so $A$ maps the orthogonal complement of ${tv_n | t\in \C}$ to itself. But this defines a self-adjoint operator of $(n-1)$-dimensional Hilbert space and we may use the induction hypothesis to find its orthogonal eigenvectors $v_1, \ldots, v_{n-1}$ with associated real eigenvalues $\lambda_1, \ldots, \lambda_{n-1}$.
+We have found $n$ orthogonal eigenvectors with real eigenvalues, so the claim has been proven.
+\end{proof}
+
+\begin{theo}
+Min-max theorem of Courant-Fischer-Weyl. For an $n \times n$ Hermitian matrix $A_n$ with eigenvalues $\lambda_1(A_n) \leq \ldots \leq \lambda_n(A_n)$, we have for any $1\leq k \leq n$
+\begin{equation*}
+\lambda_k(A_n) = \inf \{ \sup\{\langle Ax,x \rangle : x \in V, |x|=1\} : \textrm{ $V$ is $k$-dimensional subspace of $\C^n$} \}
+\end{equation*}
+and
+\begin{equation*}
+\lambda_k(A_n) = \sup \{ \inf\{\langle Ax,x \rangle : x \in V\} : \textrm{ $V$ is $(n-k+1)$-dimensional subspace of $\C^n$} \}
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+Let $(v_j)$ be the orthonormal eigenvectors associated with the eigenvalues $(\lambda_j(A_n))$.
+
+Taking $V=span(v_1,\ldots,v_k)$, we see that for any $w=\sum_{i=1}^k c_iv_i$ with $|w|=1$ we have $\langle A_nw,w \rangle = \sum_{i=1}^n \langle \lambda_i(A_n)c_iv_i,c_iv_i \rangle = \sum_{i=1}^k \lambda_i(A_n) \langle c_iv_i,c_iv_i \rangle \leq \lambda_k(A_n) \sum_{i=1}^k \langle c_iv_i,c_iv_i \rangle = \lambda_k(A_n)$. Also, $\langle A_nv_k,v_k \rangle = \lambda_k(A_n)$.
+
+This proves that $\sup \{\langle Ax,x \rangle : x \in V, |x|=1\} = \lambda_k(A_n)$ for this subspace $V$. This means that
+\begin{equation*}
+\lambda_k(A_n) \geq \inf \{ \sup\{\langle Ax,x \rangle : x \in V, |x|=1\} : \textrm{ $V$ is $k$-dimensional subspace of $\C^n$} \}
+\end{equation*}
+
+Let us prove the other direction. For any $k$-dimensional subspace $V$, we see that $V \cap span(v_k,\ldots,v_n) \neq \{0\}$ by considering dimensions. Taking a vector $w=\sum_{i=k}^n c_iv_i$ with $|w|=1$ from this intersection, we get that
+$\langle A_nw,w \rangle = \sum_{i=k}^n \lambda_i(A_n) \langle c_iv_i,c_iv_i \rangle \geq \lambda_k(A_n) \sum_{i=k}^n \langle c_iv_i,c_iv_i \rangle = \lambda_k(A_n)$. This means that $\sup\{\langle Ax,x \rangle : x \in V, |x|=1\} \geq \lambda_k(A_n)$ for $V$, and the the first equality follows.
+
+The second equality follows from the first as $\lambda_k(A_n) = -\lambda_{n-k+1}(-A_n)$.
+\end{proof}
+
+\begin{theo}
+Cauchy interlacing formula. Let $A_n$ be a Hermitian $n \times n$ matrix for $n\geq 2$ and $A_n^l$ be its minor obtained by removing $l$th row and column. Denote the eigenvalues of $A_n$ as $\lambda_1(A_n) \leq \ldots \leq \lambda_n(A_n)$ and the eigenvalues of $A_n^l$ as $\lambda_1(A_n^l) \leq \ldots \leq \lambda_{n-1}(A_n^l)$. Then for any $1 \leq k < n$ we have
+\begin{equation*}
+\lambda_k(A_n) \leq \lambda_k(A_n^l) \leq \lambda_{k+1}(A_n).
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+It suffices to prove one of the inequalities, as the other follows from the identity $\lambda_k(A_n) = -\lambda_{n-k+1}(-A_n)$.
+
+Define the subspace $U = \{v \in \C_n : v_l=0\} \subset \C^n$, and let $\pi_U$ be the projection $\C^n \to U$, and $\varphi_U$ be the embedding $\C^{n-1} \to U$. We see that $A_n^l = \pi_U \circ A_n \circ \varphi_U$. Let $(v_j)_{j=1}^{n-1}$ be the images of the orthonormal eigenvector of $A_n^l$ under the embedding $\varphi_U$. 
+
+By the previous theorem, we have
+
+\begin{equation*}
+\lambda_{k+1}(A_n) = \inf_{V \subset \C^n, \dim V = k+1}  \sup\{\langle A_nx,x \rangle : x \in V, |x|=1\}
+\end{equation*}
+
+and, as $\langle \pi_Ux,y \rangle = \langle x,y \rangle$ whenever $y \in U$, we also have
+
+\begin{equation*}
+\lambda_k(A_n^l) = \inf \{ \sup\{\langle A_nx,x \rangle : x \in V, |x|=1\} : \textrm{ $V$ is $k$-dimensional subspace of $U$} \}.
+\end{equation*}
+
+Let $V$ be any $k+1$-dimensional subspace of $\C^n$. We see that $V \cup span(v_k,\ldots ,v_{n-1}) \neq \{0\}$ by considering dimensions. This means that
+
+\begin{eqnarray*}
+\sup\{\langle A_nx,x \rangle : x \in V, |x|=1\} & \geq & \sup\{\langle \pi_UA_nx,\pi_Ux \rangle : x \in V, |x|=1\}\\
+& \geq & \lambda_k(A_n^l).
+\end{eqnarray*}
+
+Taking the infimum over subspaces $V$ shows that  $\lambda_{k+1}(A_n) \geq \lambda_k(A_n^l)$.
+
+\end{proof}
+
+\chapter{Formulas for the elements of matrix inverse}
+
+\begin{theo}
+Cramer's rule. Let $A$ be $n \times n$ invertible square matrix, and for any $1\leq i,j \leq n$, let $M_{ij}$ be the determinant of the $(n-1) \times (n-1)$ matrix obtained from $A$ by removing $i$th row and $j$th column. Then the elements of the inverse matrix $A^{-1}$ are given by
+\begin{equation*}
+A_{ij}^{-1} = (-1)^{i+j}\frac{M_{ji}}{\det(A)}.
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+Define matrix $B$ by
+\begin{equation*}
+B_{ij} = (-1)^{i+j}M_{ji}.
+\end{equation*}
+
+Fix $1\leq i\leq n$. Now we can compute the diagonal element $(AB)_{ii}$ as
+
+\begin{eqnarray*}
+(AB)_{ii} & = & \sum_{k=1}^{n} A_{ik}B_{ki}\\
+& = & \sum_{k=1}^{n} (-1)^{i+k} A_{ik}M_{ik}\\
+& = & \det(A),
+\end{eqnarray*}
+
+where the final equality is obtained by expanding the determinant along the $i$th row.
+
+If we instead have $1\leq j \leq n$, $j\neq i$, we see that
+\begin{eqnarray*}
+(AB)_{ij} & = & \sum_{k=1}^{n} A_{ik}B_{kj}\\
+& = & \sum_{k=1}^{n} (-1)^{j+k} A_{ik}M_{jk}.
+\end{eqnarray*}
+
+Now we see that this is the determinant of the $n \times n$ matrix obtained by replacing the $j$th row of $A$ by the $i$th row. But then the rows of the matrix are linearly dependent, so the determinant must be $0$.
+
+We have obtained that $AB = \det(A)I_n$, and as the inverse matrix is unique, we see that $A^{-1} = \frac{1}{\det(A)}B$.
+\end{proof}
+
+\begin{theo}
+A formula for an element in inverse matrix based on Schur's complement. Let $A_n$ be $n \times n$ invertible square matrix for $n\geq 2$, and denote
+\begin{equation*}
+A_n =
+\begin{pmatrix}
+A_{n-1} & C \\
+R & a_{nn}
+\end{pmatrix} ,
+\end{equation*}
+where $A_{n-1}$ is $(n-1) \times (n-1)$ matrix, $R$ is $1 \times (n-1)$ row matrix and $C$ $(n-1) \times 1$ column matrix. If both $A_n$ and $A_{n-1}$ are invertible, then we have
+\begin{equation*}
+[A_n^{-1}]_{nn} = \frac{1}{a_{nn}-R A_{n-1}^{-1} C}.
+\end{equation*}
+\end{theo}
+
+\begin{proof}
+We will solve the linear equation $A_n x = e_n$: the element we seek will be exactly $x_n$. If we define the $n$-vector  $x' = (0\ 0\ \ldots \ 0 \ x_n)^T$, we see that
+\begin{equation*}
+A_nx' =
+\begin{pmatrix}
+x_nC \\
+x_na_{nn}
+\end{pmatrix}.
+\end{equation*}
+
+As $A_{n-1}$ is invertible, we may solve the equation $A_{n-1}y = -x_nC$ as $y = -x_nA_{n-1}^{-1}C$. This means that $x = (y \ x_n)^T$, so we get
+
+\begin{equation*}
+A_{n}x = 
+\begin{pmatrix}
+0\\
+x_n(a_nn-RA_{n-1}^{-1}C)
+\end{pmatrix}.
+\end{equation*}
+
+But this should be equal to $e_n$, so we can solve that
+\begin{equation*}
+x_n = \frac{1}{a_{nn}-RA_{n-1}^{-1}C}.
+\end{equation*}
+\end{proof}
 
 \begin{thebibliography}{99}
 
